@@ -18,11 +18,18 @@ django-admin --version
 
 ### Create a Project with Django Admin
 ```sh
-django-admin startproject jobapp_django .
+django-admin startproject my_project .
 ```
+
+## manage.py
 
 ### Run Local Server
 ```sh
 python manage.py runserver
 python manage.py runserver 8001
+```
+
+### Create App in Project
+```sh
+python manage.py startapp my_app
 ```
