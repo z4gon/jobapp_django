@@ -20,3 +20,9 @@ django-admin --version
 ```sh
 django-admin startproject jobapp_django .
 ```
+
+### Run Local Server
+```sh
+python manage.py runserver
+python manage.py runserver 8001
+```
