@@ -42,15 +42,8 @@ all_jobs = {
 }
 
 def jobs_list(request):
-    jobs = [
-        {
-            **job,
-            'url': reverse('job_detail', args=[job.get('id')])
-        } for job in all_jobs.values()
-    ]
-
     context = {
-        'jobs': jobs
+        'jobs': all_jobs.values()
     }
 
     return render(request, 'app/jobs_list.html', context)
@@ -62,7 +55,6 @@ def job_detail(request, job_id):
 
         context = {
             'job': all_jobs[job_id], # fails if not found
-            'url': reverse('job_detail', args=[job_id])
         }
         
         return render(request, 'app/job_detail.html', context)   

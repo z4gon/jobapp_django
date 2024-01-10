@@ -19,6 +19,7 @@ A Jobs Postings Portal built with Django 4
     - [Context](#context)
     - [If / Else](#if--else)
     - [For Loops](#for-loops)
+    - [Reverse URLs](#reverse-urls-1)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -182,4 +183,9 @@ def hello(request, name):
 {% for elem in my_list %}
     <p>{{ elem }}</p>
 {% endfor %}
+```
+
+### Reverse URLs
+```html
+<a href={% url "job_detail" job.id %}>
 ```
