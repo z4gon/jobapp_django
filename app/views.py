@@ -5,9 +5,11 @@ from django.template import loader
 
 # Create your views here.
 
-def hello(request):
+def hello(request, name):
     template = loader.get_template('app/hello.html')
-    context = {}
+    context = {
+        'name': name
+    }
     return HttpResponse(template.render(context, request))
 
 all_jobs = {
