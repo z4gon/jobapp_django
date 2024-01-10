@@ -24,8 +24,23 @@ all_jobs = {
     }
 }
 
-def hello(request):
-    return HttpResponse("<h3>Hello, World!</h3>")
+def home(request):
+    jobs_html = [
+        f"""
+            <h2>{job.get("title")}</h1>
+            <h3>{job.get("company")}</h2>
+            <p>{job.get("location")}</p>
+            Visit <a href=/job/{job.get("id")}>this link</a> for more info.
+        """ for job in all_jobs.values()
+    ]
+
+    return HttpResponse(f"""
+        <h1>Jobs List</h1>
+        <hr />
+        <div>
+            {"<hr />".join(jobs_html)}
+        </div>
+    """)
 
 def job_detail(request, job_id):
     if job_id not in all_jobs:
