@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 # Create your views here.
@@ -28,8 +28,11 @@ def hello(request):
     return HttpResponse("<h3>Hello, World!</h3>")
 
 def job_detail(request, job_id):
+    if job_id not in all_jobs:
+        return redirect('/') # redirect home
+
     job = all_jobs.get(job_id)
-    url = f"https://www.linkedin.com/jobs/view/{job_id}"
+    url = f"/job/{job_id}"
     
     return HttpResponse(f"""
         <h1>{job.get("title")}</h1>
