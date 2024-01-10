@@ -24,22 +24,24 @@ all_jobs = {
     }
 }
 
-def home(request):
+def jobs_list(request):
     jobs_html = [
         f"""
+        <li>
             <h2>{job.get("title")}</h1>
             <h3>{job.get("company")}</h2>
             <p>{job.get("location")}</p>
             Visit <a href=/job/{job.get("id")}>this link</a> for more info.
+        </li>
         """ for job in all_jobs.values()
     ]
 
     return HttpResponse(f"""
         <h1>Jobs List</h1>
         <hr />
-        <div>
-            {"<hr />".join(jobs_html)}
-        </div>
+        <ul>
+            {"".join(jobs_html)}
+        </ul>
     """)
 
 def job_detail(request, job_id):
