@@ -47,3 +47,20 @@ python manage.py runserver 8001
 ```sh
 python manage.py startapp my_app
 ```
+
+## Project Structure
+```sh
+my_project/
+├─ my_project/
+│  ├─ asgi.py
+│  ├─ wsgi.py
+│  ├─ settings.py
+│  ├─ urls.py
+├─ my_app/
+│  ├─ migrations/
+│  ├─ admin.py
+│  ├─ apps.py
+│  ├─ models.py
+│  ├─ views.py
+├─ manage.py
+```
