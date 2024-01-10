@@ -15,6 +15,7 @@ A Jobs Postings Portal built with Django 4
     - [Path Converters](#path-converters)
     - [Reverse URLs](#reverse-urls)
     - [Redirect](#redirect)
+  - [Templates](#templates)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -68,6 +69,8 @@ my_project/
 │  ├─ admin.py
 │  ├─ apps.py
 │  ├─ models.py
+│  ├─ templates/
+│  ├─ ├─ some_template.html
 │  ├─ views.py
 ├─ manage.py
 ```
@@ -104,4 +107,18 @@ url = reverse('job_detail', args=[job_id])
 def job_detail(request, job_id):
     if job_id not in all_jobs:
         return redirect(reverse('jobs_list')) # redirect home
+```
+
+## Templates
+```py
+INSTALLED_APPS = [
+    ...
+    'my_app.apps.AppConfig'
+]
+```
+
+```py
+template = loader.get_template('hello.html')
+context = { ... }
+return HttpResponse(template.render(context, request))
 ```
