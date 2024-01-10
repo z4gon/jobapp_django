@@ -14,7 +14,8 @@ def hello(request, name):
         'name': name,
         'age': 25,
         'my_list': ['alpha', 'beta', 'gamma', 'delta'],
-        'my_object': AuxClass()
+        'my_object': AuxClass(),
+        'starts_with_a': name.startswith('a')
     }
     # return HttpResponse(template.render(context, request))
     return render(request, 'app/hello.html', context)   

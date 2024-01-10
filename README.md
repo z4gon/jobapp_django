@@ -16,6 +16,8 @@ A Jobs Postings Portal built with Django 4
     - [Reverse URLs](#reverse-urls)
     - [Redirect](#redirect)
   - [Templates](#templates)
+    - [Context](#context)
+    - [If / Else](#if--else)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -141,4 +143,35 @@ return HttpResponse(template.render(context, request))
 ```py
 context = { ... }
 return render(request, 'app/hello.html', context)   
+```
+
+### Context
+```py
+def hello(request, name):
+    context = {
+        'name': name,
+        'age': 25,
+        'my_list': ['alpha', 'beta', 'gamma', 'delta'],
+        'my_object': AuxClass()
+    }
+    return render(request, 'app/hello.html', context)  
+```
+
+```html
+<h1>Hello {{ name }}!</h1>
+<h3>Your age is: {{ age }}</h3>
+<p>{{ my_list.0 }}</p>
+<p>{{ my_list.1 }}</p>
+<p>{{ my_list.2 }}</p>
+<p>{{ my_list.3 }}</p>
+{{ my_object.x }}
+```
+
+### If / Else
+```html
+{% if starts_with_a %}
+    <h3>Your name starts with A!</h3>
+{% else %}
+    <h3>Your name doesn't start with A!</h3>
+{% endif %}
 ```
