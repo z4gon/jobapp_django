@@ -42,42 +42,30 @@ all_jobs = {
 }
 
 def jobs_list(request):
-    jobs_html = [
-        f"""
-        <li>
-            <h2>{job.get("title")}</h1>
-            <h3>{job.get("company")}</h2>
-            <p>{job.get("location")}</p>
-            Visit <a href={reverse('job_detail', args=[job.get("id")])}>this link</a> for more info.
-        </li>
-        """ for job in all_jobs.values()
+    jobs = [
+        {
+            **job,
+            'url': reverse('job_detail', args=[job.get('id')])
+        } for job in all_jobs.values()
     ]
 
-    return HttpResponse(f"""
-        <h1>Jobs List</h1>
-        <hr />
-        <ul>
-            {"".join(jobs_html)}
-        </ul>
-    """)
+    context = {
+        'jobs': jobs
+    }
+
+    return render(request, 'app/jobs_list.html', context)
 
 def job_detail(request, job_id):
     try:
         if job_id == 0:
             return redirect(reverse('jobs_list')) # redirect home
 
-        job = all_jobs[job_id] # fails if not found
-        url = reverse('job_detail', args=[job_id])
+        context = {
+            'job': all_jobs[job_id], # fails if not found
+            'url': reverse('job_detail', args=[job_id])
+        }
         
-        return HttpResponse(f"""
-            <h1>{job.get("title")}</h1>
-            <h2>{job.get("company")}</h2>
-            <p>{job.get("location")}</p>
-            Visit <a href={url}>this link</a> for more info.
-        """)
+        return render(request, 'app/job_detail.html', context)   
     
     except KeyError:
-        return HttpResponseNotFound(f"""
-            <h1>Job not found</h1>
-            <p>Sorry, but the job you are looking for does not exist.</p>
-        """)
+        return render(request, 'app/job_not_found.html', {})   
