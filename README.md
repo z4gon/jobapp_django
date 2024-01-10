@@ -110,11 +110,26 @@ def job_detail(request, job_id):
 ```
 
 ## Templates
+Django scans the apps in this order looking for templates by name.
 ```py
 INSTALLED_APPS = [
     ...
     'my_app.apps.AppConfig'
 ]
+```
+
+Namespacing, ensures no conflicts arise from templates with same name.
+```sh
+my_project/
+├─ my_app/
+│  ├─ templates/
+│  ├─ ├─ my_app/
+│  ├─ ├─ ├─ index.html
+├─ my_other_app/
+│  ├─ templates/
+│  ├─ ├─ my_other_app/
+│  ├─ ├─ ├─ index.html
+│  ├─ views.py
 ```
 
 ```py
