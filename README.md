@@ -2,13 +2,18 @@
 A Jobs Postings Portal built with Django 4
 
 - [Jobs Portal Website (Django 4.x)](#jobs-portal-website-django-4x)
+  - [Resources](#resources)
   - [Local Setup](#local-setup)
     - [Install Django](#install-django)
     - [Activate Virtualenv](#activate-virtualenv)
-    - [Create a Project with Django Admin](#create-a-project-with-django-admin)
+    - [Create a Project](#create-a-project)
   - [Django Utility Commands](#django-utility-commands)
     - [Run Local Server](#run-local-server)
     - [Create App in Project](#create-app-in-project)
+  - [Project Structure](#project-structure)
+
+## Resources
+[Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
 
 ## Local Setup
 - [pyenv](https://github.com/pyenv/pyenv)
@@ -23,8 +28,6 @@ pipenv install django==4.2.9
 ```sh
 source $(pipenv --venv)/bin/activate
 ```
-
-Then you will be able to do:
 ```
 django-admin --version
 4.2.9
