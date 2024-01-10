@@ -137,3 +137,8 @@ template = loader.get_template('hello.html')
 context = { ... }
 return HttpResponse(template.render(context, request))
 ```
+
+```py
+context = { ... }
+return render(request, 'app/hello.html', context)   
+```

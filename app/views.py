@@ -9,13 +9,14 @@ class AuxClass:
     x = 5
 
 def hello(request, name):
-    template = loader.get_template('app/hello.html')
+    # template = loader.get_template('app/hello.html')
     context = {
         'name': name,
         'my_list': ['alpha', 'beta', 'gamma', 'delta'],
         'my_object': AuxClass()
     }
-    return HttpResponse(template.render(context, request))
+    # return HttpResponse(template.render(context, request))
+    return render(request, 'app/hello.html', context)   
 
 all_jobs = {
     1: {
