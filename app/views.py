@@ -12,6 +12,7 @@ def hello(request, name):
     # template = loader.get_template('app/hello.html')
     context = {
         'name': name,
+        'age': 25,
         'my_list': ['alpha', 'beta', 'gamma', 'delta'],
         'my_object': AuxClass()
     }
