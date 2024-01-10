@@ -11,6 +11,8 @@ A Jobs Postings Portal built with Django 4
     - [Run Local Server](#run-local-server)
     - [Create App in Project](#create-app-in-project)
   - [Project Structure](#project-structure)
+  - [URLs](#urls)
+    - [Path Converters](#path-converters)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -67,3 +69,13 @@ my_project/
 │  ├─ views.py
 ├─ manage.py
 ```
+
+## URLs
+
+### Path Converters
+Two paths with different primitive type can coexist.
+
+- `path('job/<int:job_id>', views.job_detail)`
+- `path('job/<str:job_id>', views.job_detail)`
+- `path('blog/<slug:blog_slug>', views.post_detail)`
+- `path('product/<uuid:product_id>', views.product_detail)`
