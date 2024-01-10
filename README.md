@@ -18,6 +18,7 @@ A Jobs Postings Portal built with Django 4
   - [Templates](#templates)
     - [Context](#context)
     - [If / Else](#if--else)
+    - [For Loops](#for-loops)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -174,4 +175,11 @@ def hello(request, name):
 {% else %}
     <h3>Your name doesn't start with A!</h3>
 {% endif %}
+```
+
+### For Loops
+```html
+{% for elem in my_list %}
+    <p>{{ elem }}</p>
+{% endfor %}
 ```
