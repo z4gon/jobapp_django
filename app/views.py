@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from django.urls import reverse
 
 # Create your views here.
 
@@ -31,7 +32,7 @@ def jobs_list(request):
             <h2>{job.get("title")}</h1>
             <h3>{job.get("company")}</h2>
             <p>{job.get("location")}</p>
-            Visit <a href=/job/{job.get("id")}>this link</a> for more info.
+            Visit <a href={reverse('job_detail', args=[job.get("id")])}>this link</a> for more info.
         </li>
         """ for job in all_jobs.values()
     ]
@@ -46,10 +47,10 @@ def jobs_list(request):
 
 def job_detail(request, job_id):
     if job_id not in all_jobs:
-        return redirect('/') # redirect home
+        return redirect(reverse('jobs_list')) # redirect home
 
     job = all_jobs.get(job_id)
-    url = f"/job/{job_id}"
+    url = reverse('job_detail', args=[job_id])
     
     return HttpResponse(f"""
         <h1>{job.get("title")}</h1>

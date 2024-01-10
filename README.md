@@ -13,6 +13,8 @@ A Jobs Postings Portal built with Django 4
   - [Project Structure](#project-structure)
   - [URLs](#urls)
     - [Path Converters](#path-converters)
+    - [Reverse URLs](#reverse-urls)
+    - [Redirect](#redirect)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -75,7 +77,31 @@ my_project/
 ### Path Converters
 Two paths with different primitive type can coexist.
 
-- `path('job/<int:job_id>', views.job_detail)`
-- `path('job/<str:job_id>', views.job_detail)`
-- `path('blog/<slug:blog_slug>', views.post_detail)`
-- `path('product/<uuid:product_id>', views.product_detail)`
+```py
+urlpatterns = [
+    path('', views.jobs_list),
+    path('job/<int:job_id>', views.job_detail)
+    path('job/<str:job_id>', views.job_detail)
+    path('blog/<slug:blog_slug>', views.post_detail)
+    path('product/<uuid:product_id>', views.product_detail)
+]
+```
+
+### Reverse URLs
+```py
+urlpatterns = [
+    path('', views.jobs_list, name='jobs_list'),
+    path('job/<int:job_id>', views.job_detail, name='job_detail')
+]
+```
+
+```py
+url = reverse('job_detail', args=[job_id])
+```
+
+### Redirect
+```py
+def job_detail(request, job_id):
+    if job_id not in all_jobs:
+        return redirect(reverse('jobs_list')) # redirect home
+```
