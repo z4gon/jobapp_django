@@ -16,6 +16,10 @@
     <p>{{ elem }}</p>
 {% endfor %}
 
+{% comment "test_comment" %}
+this is a comment, ignored by the template engine
+{% endcomment %}
+
 <hr />
 <h3>Aux Object:</h3>
 {{ my_object.x }}
