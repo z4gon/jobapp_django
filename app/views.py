@@ -5,10 +5,15 @@ from django.template import loader
 
 # Create your views here.
 
+class AuxClass:
+    x = 5
+
 def hello(request, name):
     template = loader.get_template('app/hello.html')
     context = {
-        'name': name
+        'name': name,
+        'my_list': ['alpha', 'beta', 'gamma', 'delta'],
+        'my_object': AuxClass()
     }
     return HttpResponse(template.render(context, request))
 
