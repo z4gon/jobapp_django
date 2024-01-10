@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
 
 # Create your views here.
@@ -46,15 +46,22 @@ def jobs_list(request):
     """)
 
 def job_detail(request, job_id):
-    if job_id not in all_jobs:
-        return redirect(reverse('jobs_list')) # redirect home
+    try:
+        if job_id == 0:
+            return redirect(reverse('jobs_list')) # redirect home
 
-    job = all_jobs.get(job_id)
-    url = reverse('job_detail', args=[job_id])
+        job = all_jobs[job_id] # fails if not found
+        url = reverse('job_detail', args=[job_id])
+        
+        return HttpResponse(f"""
+            <h1>{job.get("title")}</h1>
+            <h2>{job.get("company")}</h2>
+            <p>{job.get("location")}</p>
+            Visit <a href={url}>this link</a> for more info.
+        """)
     
-    return HttpResponse(f"""
-        <h1>{job.get("title")}</h1>
-        <h2>{job.get("company")}</h2>
-        <p>{job.get("location")}</p>
-        Visit <a href={url}>this link</a> for more info.
-    """)
+    except KeyError:
+        return HttpResponseNotFound(f"""
+            <h1>Job not found</h1>
+            <p>Sorry, but the job you are looking for does not exist.</p>
+        """)
