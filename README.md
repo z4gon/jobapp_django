@@ -28,6 +28,7 @@ A Jobs Postings Portal built with Django 4
       - [sqlmigrate](#sqlmigrate)
       - [showmigrations](#showmigrations)
       - [migrate](#migrate)
+    - [Data Migrations](#data-migrations)
     - [Insert](#insert)
     - [Select Many](#select-many)
       - [To String](#to-string)
@@ -373,6 +374,26 @@ Running migrations:
   Applying auth.0011_update_proxy_permissions... OK
   Applying auth.0012_alter_user_first_name_max_length... OK
   Applying sessions.0001_initial... OK
+```
+
+### [Data Migrations](https://docs.djangoproject.com/en/5.0/topics/migrations/#data-migrations)
+
+```sh
+python manage.py makemigrations --empty yourappname
+```
+
+```py
+from django.db import migrations
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('app', '0003_job_slug'),
+    ]
+
+    operations = [
+    ]
 ```
 
 ### Insert
