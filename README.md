@@ -32,6 +32,7 @@ A Jobs Postings Portal built with Django 4
     - [Select Many](#select-many)
       - [To String](#to-string)
       - [Where](#where)
+      - [Exclude](#exclude)
     - [Select Single](#select-single)
 
 ## Resources
@@ -383,6 +384,7 @@ python manage.py shell
 ```
 
 ### Select Many
+Returns QuerySet
 ```sh
 >>> Job.objects.all()
 <QuerySet [<Job: Job object (1)>, <Job: Job object (2)>, <Job: Job object (3)>]>
@@ -406,8 +408,14 @@ class Job(models.Model):
 >>> Job.objects.filter(description="Contribute to the React Library")
 <QuerySet [<Job: Software Engineer - Facebook>]>
 ```
+#### Exclude
+```sh
+>>> Job.objects.exclude(company="Riot Games")
+<QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>]>
+```
 
 ### Select Single
+Returns an instance of the model
 ```sh
 >>> Job.objects.get(title="Software Engineer II")
 <Job: Software Engineer II - Innersloth>
