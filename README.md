@@ -29,9 +29,10 @@ A Jobs Postings Portal built with Django 4
       - [showmigrations](#showmigrations)
       - [migrate](#migrate)
     - [Insert](#insert)
-    - [Select](#select)
-      - [__str__](#str)
-      - [filter](#filter)
+    - [Select Many](#select-many)
+      - [To String](#to-string)
+      - [Where](#where)
+    - [Select Single](#select-single)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -381,13 +382,13 @@ python manage.py shell
 >>> Job.objects.create(title="Software Engineer II", company="Innersloth", description="Work on Among Us", salary=120000)
 ```
 
-### Select
+### Select Many
 ```sh
 >>> Job.objects.all()
 <QuerySet [<Job: Job object (1)>, <Job: Job object (2)>, <Job: Job object (3)>]>
 ```
 
-#### __str__
+#### To String
 ```py
 class Job(models.Model):
     ...
@@ -400,8 +401,36 @@ class Job(models.Model):
 <QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>]>
 ```
 
-#### filter
+#### Where
 ```sh
 >>> Job.objects.filter(description="Contribute to the React Library")
 <QuerySet [<Job: Software Engineer - Facebook>]>
+```
+
+### Select Single
+```sh
+>>> Job.objects.get(title="Software Engineer II")
+<Job: Software Engineer II - Innersloth>
+```
+Error when none exist:
+```sh
+>>> Job.objects.get(title="Non existent title")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "~/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "~/django/db/models/query.py", line 637, in get
+    raise self.model.DoesNotExist(
+app.models.Job.DoesNotExist: Job matching query does not exist.
+```
+Error when multiple exist:
+```sh
+>>> Job.objects.get(salary=110000)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "~/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "~/django/db/models/query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+app.models.Job.MultipleObjectsReturned: get() returned more than one Job -- it returned 2!
 ```
