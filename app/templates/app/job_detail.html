@@ -1,6 +1,6 @@
-<a href={% url "jobs_list" %}>back home</a>
+<a href={% url "jobs_list" %}>&lt; Back</a>
 
 <h1>{{ job.title }}</h1>
 <h2>{{ job.company }}</h2>
-<p>{{ job.location }}</p>
-Visit <a href={{ url }}>this link</a> for more info.
+<p>{{ job.description }}</p>
+<p>Salary: ${{ job.salary }}</p>

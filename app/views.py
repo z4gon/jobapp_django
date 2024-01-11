@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse
-from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
+from app.models import Job
 
 # Create your views here.
 
@@ -20,30 +20,9 @@ def hello(request, name):
     # return HttpResponse(template.render(context, request))
     return render(request, 'app/hello.html', context)   
 
-all_jobs = {
-    1: {
-        "id": 1,
-        "title": "Python Developer",
-        "company": "Google",
-        "location": "Mountain View, CA"
-    },
-    2: {
-        "id": 2,
-        "title": "Java Developer",
-        "company": "Facebook",
-        "location": "Menlo Park, CA"
-    },
-    3: {
-        "id": 3,
-        "title": "Ruby Developer",
-        "company": "Amazon",
-        "location": "Seattle, WA"
-    }
-}
-
 def jobs_list(request):
     context = {
-        'jobs': all_jobs.values()
+        'jobs': Job.objects.all()
     }
 
     return render(request, 'app/jobs_list.html', context)
@@ -54,10 +33,10 @@ def job_detail(request, job_id):
             return redirect(reverse('jobs_list')) # redirect home
 
         context = {
-            'job': all_jobs[job_id], # fails if not found
+            'job': Job.objects.get(id=job_id), # fails if not found
         }
         
         return render(request, 'app/job_detail.html', context)   
     
-    except KeyError:
-        return render(request, 'app/job_not_found.html', {})   
+    except ObjectDoesNotExist:
+        return render(request, 'app/job_not_found.html', {}, status=404)   
