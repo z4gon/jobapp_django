@@ -11,7 +11,7 @@ A Jobs Postings Portal built with Django 4
     - [Run Local Server](#run-local-server)
     - [Create App in Project](#create-app-in-project)
   - [Project Structure](#project-structure)
-  - [URLs](#urls)
+  - [URLs and Views](#urls-and-views)
     - [Path Converters](#path-converters)
     - [Reverse URLs](#reverse-urls)
     - [Redirect](#redirect)
@@ -20,6 +20,8 @@ A Jobs Postings Portal built with Django 4
     - [If / Else](#if--else)
     - [For Loops](#for-loops)
     - [Reverse URLs](#reverse-urls-1)
+  - [ORM](#orm)
+    - [Models, Field Types \& Options](#models-field-types--options)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -79,7 +81,7 @@ my_project/
 ├─ manage.py
 ```
 
-## URLs
+## URLs and Views
 
 ### Path Converters
 Two paths with different primitive type can coexist.
@@ -188,4 +190,16 @@ def hello(request, name):
 ### Reverse URLs
 ```html
 <a href={% url "job_detail" job.id %}>
+```
+
+## ORM
+
+### Models, Field Types & Options
+
+```py
+from django.db import models
+
+class Customer(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
 ```
