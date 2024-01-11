@@ -11,5 +11,5 @@ class Job(models.Model):
     salary = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.title} - {self.company}"
+        return f"{self.title} - {self.company} - {self.salary}"
     
