@@ -16,5 +16,7 @@ class Job(models.Model):
     
     # https://docs.djangoproject.com/en/4.2/topics/db/models/#overriding-model-methods
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + "-" + self.company)
+        if not self.id: # only on creation
+            self.slug = slugify(self.title + "-" + self.company)
+
         return super().save(*args, **kwargs)
