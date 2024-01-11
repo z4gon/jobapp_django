@@ -30,6 +30,7 @@ A Jobs Postings Portal built with Django 4
       - [migrate](#migrate)
     - [Insert](#insert)
     - [Select](#select)
+      - [__str__](#str)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -386,4 +387,21 @@ python manage.py shell
 >>> from app.models import Job
 >>> Job.objects.all()
 <QuerySet [<Job: Job object (1)>, <Job: Job object (2)>, <Job: Job object (3)>]>
+```
+
+#### __str__
+```py
+class Job(models.Model):
+    ...
+    
+    def __str__(self):
+        return f"{self.title} - {self.company}"
+```
+```sh
+python manage.py shell
+```
+```sh
+>>> from app.models import Job
+>>> Job.objects.all()
+<QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>]>
 ```
