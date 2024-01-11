@@ -22,6 +22,11 @@ A Jobs Postings Portal built with Django 4
     - [Reverse URLs](#reverse-urls-1)
   - [ORM](#orm)
     - [Models, Field Types \& Options](#models-field-types--options)
+    - [Migrations](#migrations)
+      - [makemigrations](#makemigrations)
+      - [sqlmigrate](#sqlmigrate)
+      - [showmigrations](#showmigrations)
+      - [migrate](#migrate)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -202,4 +207,115 @@ from django.db import models
 class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+```
+
+### Migrations
+
+#### makemigrations
+
+Creates new migrations based on the changes that are identified in the models.
+```sh
+python manage.py makemigrations
+```
+
+```py
+# app/migrations/0001_initial.py
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='Job',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=200)),
+                ('company', models.CharField(max_length=200)),
+                ('description', models.TextField()),
+            ],
+        ),
+    ]
+```
+
+#### sqlmigrate
+
+Displays the SQL statements for a migration.
+```sh
+python manage.py sqlmigrate app 0001
+```
+```sql
+BEGIN;
+--
+-- Create model Job
+--
+CREATE TABLE "app_job" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "company" varchar(200) NOT NULL, "description" text NOT NULL);
+COMMIT;
+```
+
+#### showmigrations
+
+Lists the migrations of the project along their status.
+```sh
+python manage.py showmigrations
+```
+```sh
+admin
+ [ ] 0001_initial
+ [ ] 0002_logentry_remove_auto_add
+ [ ] 0003_logentry_add_action_flag_choices
+app
+ [ ] 0001_initial
+auth
+ [ ] 0001_initial
+ [ ] 0002_alter_permission_name_max_length
+ [ ] 0003_alter_user_email_max_length
+ [ ] 0004_alter_user_username_opts
+ [ ] 0005_alter_user_last_login_null
+ [ ] 0006_require_contenttypes_0002
+ [ ] 0007_alter_validators_add_error_messages
+ [ ] 0008_alter_user_username_max_length
+ [ ] 0009_alter_user_last_name_max_length
+ [ ] 0010_alter_group_name_max_length
+ [ ] 0011_update_proxy_permissions
+ [ ] 0012_alter_user_first_name_max_length
+contenttypes
+ [ ] 0001_initial
+ [ ] 0002_remove_content_type_name
+sessions
+ [ ] 0001_initial
+```
+
+#### migrate
+
+Runs, applies or unapplies migrations.
+```sh
+python manage.py migrate
+```
+```sh
+Operations to perform:
+  Apply all migrations: admin, app, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying app.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
 ```
