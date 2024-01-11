@@ -28,6 +28,7 @@ A Jobs Postings Portal built with Django 4
       - [sqlmigrate](#sqlmigrate)
       - [showmigrations](#showmigrations)
       - [migrate](#migrate)
+    - [Save](#save)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -360,4 +361,17 @@ Running migrations:
   Applying auth.0011_update_proxy_permissions... OK
   Applying auth.0012_alter_user_first_name_max_length... OK
   Applying sessions.0001_initial... OK
+```
+
+### Save
+```sh
+python manage.py shell
+```
+```sh
+>>> from app.models import Job
+>>> job_post_1 = Job(title="Software Engineer", company="Facebook", description="Contribute to the React Library", salary=100000)
+>>> job_post_1.save()
+```
+```sh
+>>> Job.objects.create(title="Software Engineer II", company="Innersloth", description="Work on Among Us", salary=120000)
 ```
