@@ -28,7 +28,8 @@ A Jobs Postings Portal built with Django 4
       - [sqlmigrate](#sqlmigrate)
       - [showmigrations](#showmigrations)
       - [migrate](#migrate)
-    - [Save](#save)
+    - [Insert](#insert)
+    - [Select](#select)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -363,7 +364,7 @@ Running migrations:
   Applying sessions.0001_initial... OK
 ```
 
-### Save
+### Insert
 ```sh
 python manage.py shell
 ```
@@ -373,5 +374,16 @@ python manage.py shell
 >>> job_post_1.save()
 ```
 ```sh
+>>> from app.models import Job
 >>> Job.objects.create(title="Software Engineer II", company="Innersloth", description="Work on Among Us", salary=120000)
+```
+
+### Select
+```sh
+python manage.py shell
+```
+```sh
+>>> from app.models import Job
+>>> Job.objects.all()
+<QuerySet [<Job: Job object (1)>, <Job: Job object (2)>, <Job: Job object (3)>]>
 ```
