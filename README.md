@@ -37,6 +37,7 @@ A Jobs Postings Portal built with Django 4
     - [Limit](#limit)
     - [Order By](#order-by)
     - [Fields Lookup](#fields-lookup)
+    - [Update](#update)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -471,4 +472,15 @@ For example, this returns the first 5 objects (OFFSET 5 LIMIT 5):
 ```sh
 >>> Job.objects.filter(salary__gt=100000)
 <QuerySet [<Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>, <Job: Graphics Engineer - Riot Games>]>
+```
+
+### Update
+```sh
+>>> job_post_1 = Job.objects.filter()[0]
+>>> job_post_1.salary
+100000
+>>> job_post_1.salary = 150000
+>>> job_post_1.salary
+150000
+>>> job_post_1.save()
 ```
