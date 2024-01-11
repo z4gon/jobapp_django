@@ -33,6 +33,7 @@ A Jobs Postings Portal built with Django 4
       - [To String](#to-string)
     - [Select Single](#select-single)
     - [Where](#where)
+      - [Chain QuerySets](#chain-querysets)
     - [Exclude](#exclude)
     - [Limit](#limit)
     - [Order By](#order-by)
@@ -435,16 +436,22 @@ Traceback (most recent call last):
     raise self.model.MultipleObjectsReturned(
 app.models.Job.MultipleObjectsReturned: get() returned more than one Job -- it returned 2!
 ```
+
 ### Where
 ```sh
 >>> Job.objects.filter(description="Contribute to the React Library")
-<QuerySet [<Job: Software Engineer - Facebook>]>
 ```
+
+#### Chain QuerySets
+```sh
+>>> Job.objects.filter().exclude(company="Facebook").filter(title__contains="Engineer")
+```
+
 ### Exclude
 ```sh
 >>> Job.objects.exclude(company="Riot Games")
-<QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>]>
 ```
+
 ### [Limit](https://docs.djangoproject.com/en/5.0/topics/db/queries/#limiting-querysets)
 [QuerySets are lazy](https://docs.djangoproject.com/en/5.0/topics/db/queries/#querysets-are-lazy) – the act of creating a QuerySet doesn’t involve any database activity. You can stack filters together all day long, and Django won’t actually run the query until the QuerySet is evaluated.
 
@@ -456,10 +463,10 @@ For example, this returns the first 5 objects (OFFSET 5 LIMIT 5):
 ```sh
 >>> Entry.objects.all()[5:10]
 ```
+
 ### Order By
 ```sh
 >>> Job.objects.order_by("company")
-<QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Graphics Engineer - Riot Games>, <Job: Software Engineer III - Thatgamecompany>]>
 ```
 ```sh
 >>> Job.objects.order_by("-company")
@@ -471,7 +478,9 @@ For example, this returns the first 5 objects (OFFSET 5 LIMIT 5):
 ### Fields Lookup
 ```sh
 >>> Job.objects.filter(salary__gt=100000)
-<QuerySet [<Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>, <Job: Graphics Engineer - Riot Games>]>
+```
+```sh
+>>> Job.objects.filter(LessThan(F("salary"), 120000))
 ```
 
 ### Update
