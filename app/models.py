@@ -9,6 +9,7 @@ class Job(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     salary = models.IntegerField(default=0)
+    slug = models.SlugField(null=True, max_length=200, unique=True)
 
     def __str__(self):
         return f"{self.title} - {self.company} - {self.salary}"
