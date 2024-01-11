@@ -31,6 +31,7 @@ A Jobs Postings Portal built with Django 4
     - [Insert](#insert)
     - [Select](#select)
       - [__str__](#str)
+      - [filter](#filter)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -371,20 +372,17 @@ python manage.py shell
 ```
 ```sh
 >>> from app.models import Job
+```
+```sh
 >>> job_post_1 = Job(title="Software Engineer", company="Facebook", description="Contribute to the React Library", salary=100000)
 >>> job_post_1.save()
 ```
 ```sh
->>> from app.models import Job
 >>> Job.objects.create(title="Software Engineer II", company="Innersloth", description="Work on Among Us", salary=120000)
 ```
 
 ### Select
 ```sh
-python manage.py shell
-```
-```sh
->>> from app.models import Job
 >>> Job.objects.all()
 <QuerySet [<Job: Job object (1)>, <Job: Job object (2)>, <Job: Job object (3)>]>
 ```
@@ -398,10 +396,12 @@ class Job(models.Model):
         return f"{self.title} - {self.company}"
 ```
 ```sh
-python manage.py shell
-```
-```sh
->>> from app.models import Job
 >>> Job.objects.all()
 <QuerySet [<Job: Software Engineer - Facebook>, <Job: Software Engineer II - Innersloth>, <Job: Software Engineer III - Thatgamecompany>]>
+```
+
+#### filter
+```sh
+>>> Job.objects.filter(description="Contribute to the React Library")
+<QuerySet [<Job: Software Engineer - Facebook>]>
 ```
