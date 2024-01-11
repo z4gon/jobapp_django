@@ -24,6 +24,7 @@ A Jobs Postings Portal built with Django 4
     - [Models, Field Types \& Options](#models-field-types--options)
     - [Migrations](#migrations)
       - [makemigrations](#makemigrations)
+        - [Add Fields to a Model](#add-fields-to-a-model)
       - [sqlmigrate](#sqlmigrate)
       - [showmigrations](#showmigrations)
       - [migrate](#migrate)
@@ -237,6 +238,47 @@ class Migration(migrations.Migration):
                 ('company', models.CharField(max_length=200)),
                 ('description', models.TextField()),
             ],
+        ),
+    ]
+```
+##### Add Fields to a Model
+```sh
+python manage.py makemigrations
+It is impossible to add the field 'date' with 'auto_now_add=True' to job without providing a default. This is because the database needs something to populate existing rows.
+ 1) Provide a one-off default now which will be set on all existing rows
+ 2) Quit and manually define a default value in models.py.
+Select an option: 1
+Please enter the default value as valid Python.
+Accept the default 'timezone.now' by pressing 'Enter' or provide another value.
+The datetime and django.utils.timezone modules are available, so it is possible to provide e.g. timezone.now as a value.
+Type 'exit' to exit this prompt
+[default: timezone.now] >>> timezone.now()
+Migrations for 'app':
+  app/migrations/0002_job_date_job_salary.py
+    - Add field date to job
+    - Add field salary to job
+```
+
+```py
+# app/migrations/0002_job_date_job_salary.py
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('app', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.AddField(
+            model_name='job',
+            name='date',
+            field=models.DateTimeField(auto_now_add=True, default=datetime.datetime(2024, 1, 11, 17, 57, 40, 428226, tzinfo=datetime.timezone.utc)),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='job',
+            name='salary',
+            field=models.IntegerField(default=0),
         ),
     ]
 ```
