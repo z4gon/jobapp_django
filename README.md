@@ -39,6 +39,8 @@ A Jobs Postings Portal built with Django 4
     - [Order By](#order-by)
     - [Fields Lookup](#fields-lookup)
     - [Update](#update)
+    - [Overriding Model Funcs](#overriding-model-funcs)
+      - [save()](#save)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -492,4 +494,27 @@ For example, this returns the first 5 objects (OFFSET 5 LIMIT 5):
 >>> job_post_1.salary
 150000
 >>> job_post_1.save()
+```
+
+### Overriding Model Funcs
+
+#### save()
+
+```py
+class Job(models.Model):
+    ...
+    slug = models.SlugField(null=True, max_length=200, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title + "-" + self.company)
+        return super.save(*args, **kwargs)
+```
+```sh
+from app.models import Job
+>>> Job.objects.create(title="Technical Artist", company="Blizzard", description="Improve content creation pipelines", salary=130000)
+```
+```sh
+job_post_1 = Job.objects.get(id=5)
+job_post_1.slug
+'technical-artist-blizzard'
 ```

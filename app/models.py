@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.functions import Now
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -14,3 +14,7 @@ class Job(models.Model):
     def __str__(self):
         return f"{self.title} - {self.company} - {self.salary}"
     
+    # https://docs.djangoproject.com/en/4.2/topics/db/models/#overriding-model-methods
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title + "-" + self.company)
+        return super().save(*args, **kwargs)
