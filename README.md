@@ -52,6 +52,7 @@ A Jobs Postings Portal built with Django 4
       - [List Display](#list-display)
       - [List Filter](#list-filter)
       - [Search Fields](#search-fields)
+      - [Search Help](#search-help)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -639,4 +640,10 @@ class JobAdmin(admin.ModelAdmin):
 ```py
 class JobAdmin(admin.ModelAdmin):
     search_fields = ('title', 'company', 'salary', 'description')
+```
+
+#### Search Help
+```py
+class JobAdmin(admin.ModelAdmin):
+    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 ```
