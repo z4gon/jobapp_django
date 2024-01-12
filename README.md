@@ -45,6 +45,8 @@ A Jobs Postings Portal built with Django 4
     - [Aggregation](#aggregation)
     - [Delete](#delete)
     - [OneToOneField](#onetoonefield)
+      - [One To One Restriction](#one-to-one-restriction)
+      - [One To One Query](#one-to-one-query)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -639,6 +641,36 @@ Operations to perform:
   Apply all migrations: admin, app, auth, contenttypes, sessions
 Running migrations:
   Applying app.0005_location_job_location... OK
+```
+
+#### One To One Restriction
+
+```sh
+>>> from app.models import Job, Location
+>>> l1 = Location(street="Hacker Street", city="Microchips", state="Motherboard", country="PC", zip="12345")
+>>> l1.save()
+>>> job1 = Job.objects.get(id=1)
+>>> job1.location = l1
+>>> job1.save()
+>>> job2 = Job.objects.get(id=2)
+>>> job2.location = l1
+>>> job2.save()
+...
+django.db.utils.IntegrityError: UNIQUE constraint failed: app_job.location_id
+```
+
+#### One To One Query
+Direct
+```sh
+>>> job_oxenfurt = Job.objects.filter(location__city="Oxenfurt")
+>>> job_oxenfurt.__str__()
+'<QuerySet [<Job: Principal Graphics Engineer - Keen Software House - $155000>]>'
+```
+Reverse
+```sh
+>>> location_keen = Location.objects.filter(job__company__icontains="keen")
+>>> location_keen.__str__()
+"<QuerySet [<Location: Thinker's Park, Redania, Oxenfurt, Northern Kingdoms 12345>]>"
 ```
 
 ## Admin

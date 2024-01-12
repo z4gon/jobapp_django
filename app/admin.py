@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Job
+from app.models import Job, Location
 
 # Register your models here.
 
@@ -19,9 +19,16 @@ class JobAdmin(admin.ModelAdmin):
             'fields': (('title', 'company'), 'salary')
         }),
         ('Extra Information', {
-            'fields': ('description',),
-            'classes': ('collapse',)
+            'fields': ('description', 'location',),
+            # 'classes': ('collapse',)
         })
     )
 
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('street', 'city', 'state', 'country', 'zip', 'id')
+    list_filter = ('city', 'state', 'country')
+    search_fields = ('street', 'city', 'state', 'country', 'zip')
+    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
+
 admin.site.register(Job, JobAdmin)
+admin.site.register(Location, LocationAdmin)
