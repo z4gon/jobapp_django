@@ -44,6 +44,7 @@ A Jobs Postings Portal built with Django 4
       - [save()](#save)
     - [Aggregation](#aggregation)
     - [Delete](#delete)
+    - [OneToOneField](#onetoonefield)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -588,6 +589,56 @@ job_post_1.slug
 ```sh
 >>> all_jobs = Job.objects.all()
 >>> all_jobs.delete()
+```
+
+### OneToOneField
+```py
+# app/models.py
+
+class Location(models.Model):
+    ...
+    
+class Job(models.Model):
+    ...
+
+    location = models.OneToOneField(Location, on_delete=models.CASCADE, null=True)
+```
+Migrations
+```sh
+python manage.py makemigrations
+```
+```sh
+Migrations for 'app':
+  app/migrations/0005_location_job_location.py
+    - Create model Location
+    - Add field location to job
+```
+```sh
+python manage.py sqlmigrate app 0005_location_job_location
+```
+```sql
+BEGIN;
+--
+-- Create model Location
+--
+CREATE TABLE "app_location" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "street" varchar(200) NOT NULL, "city" varchar(200) NOT NULL, "state" varchar(200) NOT NULL, "country" varchar(200) NOT NULL, "zip" varchar(200) NOT NULL);
+--
+-- Add field location to job
+--
+CREATE TABLE "new__app_job" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "company" varchar(200) NOT NULL, "description" text NOT NULL, "date" datetime NOT NULL, "salary" integer NOT NULL, "slug" varchar(200) NULL UNIQUE, "location_id" bigint NULL UNIQUE REFERENCES "app_location" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO "new__app_job" ("id", "title", "company", "description", "date", "salary", "slug", "location_id") SELECT "id", "title", "company", "description", "date", "salary", "slug", NULL FROM "app_job";
+DROP TABLE "app_job";
+ALTER TABLE "new__app_job" RENAME TO "app_job";
+COMMIT;
+```
+```sh
+python manage.py migrate
+```
+```sh
+Operations to perform:
+  Apply all migrations: admin, app, auth, contenttypes, sessions
+Running migrations:
+  Applying app.0005_location_job_location... OK
 ```
 
 ## Admin
