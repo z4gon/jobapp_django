@@ -48,6 +48,8 @@ A Jobs Postings Portal built with Django 4
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
     - [Customize Admin](#customize-admin)
+      - [Admin Model](#admin-model)
+      - [List Display](#list-display)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -601,7 +603,8 @@ admin.site.register(Job)
 ```
 
 ### Customize Admin
-Admin Model
+
+#### Admin Model
 ```py
 # app/admin.py
 
@@ -612,4 +615,14 @@ class JobAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Job, JobAdmin)
+```
+
+#### List Display
+```py
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('title', 'company', 'salary', 'description', 'id')
+```
+```py
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id')
 ```
