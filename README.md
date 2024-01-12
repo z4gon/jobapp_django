@@ -51,6 +51,7 @@ A Jobs Postings Portal built with Django 4
       - [Admin Model](#admin-model)
       - [List Display](#list-display)
       - [List Filter](#list-filter)
+      - [Search Fields](#search-fields)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -632,4 +633,10 @@ class JobAdmin(admin.ModelAdmin):
 ```py
 class JobAdmin(admin.ModelAdmin):
     list_filter = ('company', 'salary')
+```
+
+#### Search Fields
+```py
+class JobAdmin(admin.ModelAdmin):
+    search_fields = ('title', 'company', 'salary', 'description')
 ```
