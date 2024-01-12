@@ -27,13 +27,13 @@ def jobs_list(request):
 
     return render(request, 'app/jobs_list.html', context)
 
-def job_detail(request, job_id):
+def job_detail(request, job_slug):
     try:
-        if job_id == 0:
+        if job_slug == "0": # empty slug
             return redirect(reverse('jobs_list')) # redirect home
 
         context = {
-            'job': Job.objects.get(id=job_id), # fails if not found
+            'job': Job.objects.get(slug=job_slug), # fails if not found
         }
         
         return render(request, 'app/job_detail.html', context)   

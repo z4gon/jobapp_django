@@ -2,7 +2,7 @@
 <hr />
 <ul>
     {% for job in jobs %}
-        <a href={% url "job_detail" job.id %}><h1>{{ job.title }}</h1></a>
+        <a href={% url "job_detail" job.slug %}><h1>{{ job.title }}</h1></a>
         <h2>{{ job.company }}</h2>
         <p>{{ job.description }}</p>
         <p>Salary: ${{ job.salary }}</p>
