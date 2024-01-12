@@ -44,9 +44,10 @@ A Jobs Postings Portal built with Django 4
       - [save()](#save)
     - [Aggregation](#aggregation)
     - [Delete](#delete)
-    - [OneToOneField](#onetoonefield)
+    - [One To One Relationship](#one-to-one-relationship)
       - [One To One Restriction](#one-to-one-restriction)
       - [One To One Query](#one-to-one-query)
+    - [One To Many Relationship](#one-to-many-relationship)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -593,7 +594,7 @@ job_post_1.slug
 >>> all_jobs.delete()
 ```
 
-### OneToOneField
+### One To One Relationship
 ```py
 # app/models.py
 
@@ -614,6 +615,15 @@ Migrations for 'app':
   app/migrations/0005_location_job_location.py
     - Create model Location
     - Add field location to job
+```
+```py
+# app/migrations/0005_location_job_location.py
+
+migrations.AddField(
+    model_name='job',
+    name='location',
+    field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.CASCADE, to='app.location'),
+),
 ```
 ```sh
 python manage.py sqlmigrate app 0005_location_job_location
@@ -671,6 +681,63 @@ Reverse
 >>> location_keen = Location.objects.filter(job__company__icontains="keen")
 >>> location_keen.__str__()
 "<QuerySet [<Location: Thinker's Park, Redania, Oxenfurt, Northern Kingdoms 12345>]>"
+```
+
+### One To Many Relationship
+```py
+# app/models.py
+
+class Author(models.Model):
+    ...
+    
+class Job(models.Model):
+    ...
+
+    author = models.ForeignKey(Author, on_delete=models.DO_NOTHING, null=False)
+```
+Migrations
+```sh
+python manage.py makemigrations
+```
+```sh
+Migrations for 'app':
+  app/migrations/0006_author_job_author.py
+    - Create model Author
+    - Add field author to job
+```
+```py
+# app/migrations/0006_author_job_author.py
+
+migrations.AddField(
+    model_name='job',
+    name='author',
+    field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.author'),
+),
+```
+```sh
+python manage.py sqlmigrate app 0005_location_job_location
+```
+```sql
+BEGIN;
+--
+-- Create model Author
+--
+CREATE TABLE "app_author" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(200) NOT NULL, "email" varchar(200) NOT NULL);
+--
+-- Add field author to job
+--
+ALTER TABLE "app_job" ADD COLUMN "author_id" bigint NULL REFERENCES "app_author" ("id") DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX "app_job_author_id_9e07b364" ON "app_job" ("author_id");
+COMMIT;
+```
+```sh
+python manage.py migrate
+```
+```sh
+Operations to perform:
+  Apply all migrations: admin, app, auth, contenttypes, sessions
+Running migrations:
+  Applying app.0006_author_job_author... OK
 ```
 
 ## Admin
