@@ -50,6 +50,7 @@ A Jobs Postings Portal built with Django 4
     - [One To Many Relationship](#one-to-many-relationship)
       - [Many To One Assign](#many-to-one-assign)
       - [Many To One Query](#many-to-one-query)
+    - [Many To Many Relationship](#many-to-many-relationship)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -791,6 +792,65 @@ Insert
 ```
 ```sh
 >>> a1.jobs_set.add(j1)
+```
+
+### Many To Many Relationship
+```py
+# app/models.py
+
+class Skill(models.Model):
+    ...
+    
+class Job(models.Model):
+    ...
+
+    skills = models.ManyToManyField(Skill)
+```
+Migrations
+```sh
+python manage.py makemigrations
+```
+```sh
+Migrations for 'app':
+  app/migrations/0007_skill_job_skills.py
+    - Create model Skill
+    - Add field skills to job
+```
+```py
+# app/migrations/0007_skill_job_skills.py
+
+migrations.AddField(
+    model_name='job',
+    name='skills',
+    field=models.ManyToManyField(to='app.skill'),
+),
+```
+```sh
+python manage.py sqlmigrate app 0007_skill_job_skills
+```
+```sql
+BEGIN;
+--
+-- Create model Skill
+--
+CREATE TABLE "app_skill" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(200) NOT NULL UNIQUE);
+--
+-- Add field skills to job
+--
+CREATE TABLE "app_job_skills" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "job_id" bigint NOT NULL REFERENCES "app_job" ("id") DEFERRABLE INITIALLY DEFERRED, "skill_id" bigint NOT NULL REFERENCES "app_skill" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE UNIQUE INDEX "app_job_skills_job_id_skill_id_1fb03c4b_uniq" ON "app_job_skills" ("job_id", "skill_id");
+CREATE INDEX "app_job_skills_job_id_6d88a2c2" ON "app_job_skills" ("job_id");
+CREATE INDEX "app_job_skills_skill_id_3de09170" ON "app_job_skills" ("skill_id");
+COMMIT;
+```
+```sh
+python manage.py migrate
+```
+```sh
+Operations to perform:
+  Apply all migrations: admin, app, auth, contenttypes, sessions
+Running migrations:
+  Applying app.0007_skill_job_skills... OK
 ```
 
 ## Admin

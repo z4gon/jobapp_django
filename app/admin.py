@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Author, Job, Location
+from app.models import Author, Job, Location, Skill
 
 # Register your models here.
 
@@ -36,6 +36,12 @@ class AuthorAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email')
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id')
+    search_fields = ('name',)
+    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
+
 admin.site.register(Job, JobAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Author, AuthorAdmin)
+admin.site.register(Skill, SkillAdmin)
