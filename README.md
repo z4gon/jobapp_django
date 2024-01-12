@@ -44,6 +44,8 @@ A Jobs Postings Portal built with Django 4
       - [save()](#save)
     - [Aggregation](#aggregation)
     - [Delete](#delete)
+  - [Admin](#admin)
+    - [createsuperuser](#createsuperuser)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -577,4 +579,12 @@ job_post_1.slug
 ```sh
 >>> all_jobs = Job.objects.all()
 >>> all_jobs.delete()
+```
+
+## Admin
+
+### createsuperuser
+
+```sh
+python manage.py createsuperuser
 ```
