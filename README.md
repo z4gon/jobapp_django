@@ -48,6 +48,7 @@ A Jobs Postings Portal built with Django 4
       - [One To One Restriction](#one-to-one-restriction)
       - [One To One Query](#one-to-one-query)
     - [One To Many Relationship](#one-to-many-relationship)
+      - [Many To One Query](#many-to-one-query)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -738,6 +739,29 @@ Operations to perform:
   Apply all migrations: admin, app, auth, contenttypes, sessions
 Running migrations:
   Applying app.0006_author_job_author... OK
+```
+
+#### Many To One Query
+Direct
+```sh
+>>> Job.objects.filter(author__name__icontains="Geralt")
+<QuerySet [<Job: Software Engineer II - Innersloth - $125000>, <Job: Technical Artist - Blizzard - $130000>, <Job: Principal Graphics Engineer - Keen Software House - $155000>]>
+```
+```sh
+>>> Job.objects.filter(author__in=[2])
+<QuerySet [<Job: Software Engineer - Facebook - $150000>]>
+```
+Reverse
+```sh
+>>> Author.objects.get(id=1).job_set.all()
+<QuerySet [<Job: Software Engineer II - Innersloth - $125000>, <Job: Technical Artist - Blizzard - $130000>, <Job: Principal Graphics Engineer - Keen Software House - $155000>]>
+```
+```sh
+>>> Author.objects.get(id=1).job_set.count()
+3
+```
+```sh
+>>> Author.objects.get(id=1).job_set.create(...)
 ```
 
 ## Admin
