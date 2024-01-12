@@ -1,12 +1,12 @@
 from django.contrib import admin
-from app.models import Job, Location
+from app.models import Author, Job, Location
 
 # Register your models here.
 
 class JobAdmin(admin.ModelAdmin):
     # list
-    list_display = ('title', 'company', 'salary', 'description', 'id')
-    list_filter = ('company', 'salary')
+    list_display = ('title', 'salary', 'company', 'location', 'author', 'id')
+    list_filter = ('company', 'salary', 'author')
     search_fields = ('title', 'company', 'salary', 'description')
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 
@@ -19,7 +19,7 @@ class JobAdmin(admin.ModelAdmin):
             'fields': (('title', 'company'), 'salary')
         }),
         ('Extra Information', {
-            'fields': ('description', 'location',),
+            'fields': ('description', 'location', 'author',),
             # 'classes': ('collapse',)
         })
     )
@@ -30,5 +30,12 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ('street', 'city', 'state', 'country', 'zip')
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'id')
+    list_filter = ('name', 'email')
+    search_fields = ('name', 'email')
+    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
+
 admin.site.register(Job, JobAdmin)
 admin.site.register(Location, LocationAdmin)
+admin.site.register(Author, AuthorAdmin)

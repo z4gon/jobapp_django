@@ -9,7 +9,7 @@ class Author(models.Model):
     email = models.EmailField(max_length=200)
 
     def __str__(self):
-        return f"{self.name} - {self.email}"
+        return f"{self.name} ({self.email})"
 
 class Location(models.Model):
     street = models.CharField(max_length=200)
