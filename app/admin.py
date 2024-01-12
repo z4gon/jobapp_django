@@ -6,7 +6,7 @@ from app.models import Author, Job, Location, Skill
 class JobAdmin(admin.ModelAdmin):
     # list
     list_display = ('title', 'salary', 'company', 'location', 'author', 'id')
-    list_filter = ('company', 'salary', 'author')
+    list_filter = ('company', 'salary', 'author', 'skills')
     search_fields = ('title', 'company', 'salary', 'description')
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 
@@ -19,7 +19,7 @@ class JobAdmin(admin.ModelAdmin):
             'fields': (('title', 'company'), 'salary')
         }),
         ('Extra Information', {
-            'fields': ('description', 'location', 'author',),
+            'fields': ('skills', 'description', 'location', 'author',),
             # 'classes': ('collapse',)
         })
     )

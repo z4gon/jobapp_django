@@ -52,6 +52,7 @@ A Jobs Postings Portal built with Django 4
       - [Many To One Query](#many-to-one-query)
     - [Many To Many Relationship](#many-to-many-relationship)
       - [Many To Many Assign](#many-to-many-assign)
+      - [Many To Many Query](#many-to-many-query)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -865,6 +866,49 @@ Running migrations:
 >>> s4 = Skill.objects.get(name="Shaders")
 >>> j5 = Job.objects.get(id=5)
 >>> s4.job_set.add(j5)
+```
+
+#### Many To Many Query
+Direct
+```sh
+>>> j1.skills.all()
+```
+```sh
+>>> Job.objects.filter(skills__name__icontains="Shader")
+```
+```sh
+>>> Job.objects.filter(skills__name__startswith=="s")
+```
+```sh
+>>> Job.objects.filter(skills=s4)
+```
+```sh
+>>> Job.objects.filter(skills__in=[1,2])
+>>> Job.objects.filter(skills__in=[1,2]).distinct()
+```
+
+Reverse
+```sh
+>>> s4.job_set.all()
+```
+```sh
+>>> Skill.objects.filter(job__title__icontains="eng")
+```
+
+Remove
+```sh
+>>> j5.skills.remove(s4)
+```
+```sh
+>>> j1.skills.clear()
+```
+
+Insert
+```sh
+>>> j1.skills.set([s1, s2])
+```
+```sh
+>>> s3.job_set.add(j1, j2)
 ```
 
 ## Admin
