@@ -43,6 +43,7 @@ A Jobs Postings Portal built with Django 4
     - [Overriding Model Funcs](#overriding-model-funcs)
       - [save()](#save)
     - [Aggregation](#aggregation)
+    - [Delete](#delete)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -565,4 +566,15 @@ job_post_1.slug
 ```sh
 >>> Job.objects.aggregate(max_deviation_from_avg=Max("salary") - Avg("salary"))
 {'max_deviation_from_avg': 25000.0}
+```
+
+### Delete
+```sh
+>>> my_job = Job.objects.get(id=6)
+>>> my_job.delete()
+(1, {'app.Job': 1})
+```
+```sh
+>>> all_jobs = Job.objects.all()
+>>> all_jobs.delete()
 ```
