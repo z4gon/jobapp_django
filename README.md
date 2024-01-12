@@ -46,6 +46,7 @@ A Jobs Postings Portal built with Django 4
     - [Delete](#delete)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
+    - [Register Model](#register-model)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -587,4 +588,13 @@ job_post_1.slug
 
 ```sh
 python manage.py createsuperuser
+```
+
+### Register Model
+
+```py
+from django.contrib import admin
+from app.models import Job
+
+admin.site.register(Job)
 ```
