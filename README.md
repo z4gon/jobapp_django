@@ -48,6 +48,7 @@ A Jobs Postings Portal built with Django 4
       - [One To One Restriction](#one-to-one-restriction)
       - [One To One Query](#one-to-one-query)
     - [One To Many Relationship](#one-to-many-relationship)
+      - [Many To One Assign](#many-to-one-assign)
       - [Many To One Query](#many-to-one-query)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
@@ -674,14 +675,10 @@ django.db.utils.IntegrityError: UNIQUE constraint failed: app_job.location_id
 Direct
 ```sh
 >>> job_oxenfurt = Job.objects.filter(location__city="Oxenfurt")
->>> job_oxenfurt.__str__()
-'<QuerySet [<Job: Principal Graphics Engineer - Keen Software House - $155000>]>'
 ```
 Reverse
 ```sh
 >>> location_keen = Location.objects.filter(job__company__icontains="keen")
->>> location_keen.__str__()
-"<QuerySet [<Location: Thinker's Park, Redania, Oxenfurt, Northern Kingdoms 12345>]>"
 ```
 
 ### One To Many Relationship
@@ -741,27 +738,56 @@ Running migrations:
   Applying app.0006_author_job_author... OK
 ```
 
+#### Many To One Assign
+```sh
+>>> from app.models import Location, Author, Job
+>>> a1 = Author.objects.get(id=1)
+>>> j2 = Job.objects.get(id=2)
+>>> j2.author = a1
+>>> j2.save()
+```
+
 #### Many To One Query
 Direct
 ```sh
 >>> Job.objects.filter(author__name__icontains="Geralt")
-<QuerySet [<Job: Software Engineer II - Innersloth - $125000>, <Job: Technical Artist - Blizzard - $130000>, <Job: Principal Graphics Engineer - Keen Software House - $155000>]>
 ```
 ```sh
 >>> Job.objects.filter(author__in=[2])
-<QuerySet [<Job: Software Engineer - Facebook - $150000>]>
 ```
+```sh
+>>> Job.objects.filter(author__pk=2)
+```
+```sh
+>>> Job.objects.filter(author=a1)
+```
+
 Reverse
 ```sh
 >>> Author.objects.get(id=1).job_set.all()
-<QuerySet [<Job: Software Engineer II - Innersloth - $125000>, <Job: Technical Artist - Blizzard - $130000>, <Job: Principal Graphics Engineer - Keen Software House - $155000>]>
 ```
 ```sh
 >>> Author.objects.get(id=1).job_set.count()
-3
 ```
 ```sh
+>>> Author.objects.get(id=1).job_set.filter(title__icontains="eng")
+```
+```sh
+>>> Author.objects.filter(job__id=1)
+```
+```sh
+>>> Author.objects.filter(job__pk=1)
+```
+```sh
+>>> Author.objects.filter(job=j2)
+```
+
+Insert
+```sh
 >>> Author.objects.get(id=1).job_set.create(...)
+```
+```sh
+>>> a1.jobs_set.add(j1)
 ```
 
 ## Admin
