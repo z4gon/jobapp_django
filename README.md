@@ -47,12 +47,12 @@ A Jobs Postings Portal built with Django 4
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
-    - [Customize Admin](#customize-admin)
-      - [Admin Model](#admin-model)
-      - [List Display](#list-display)
-      - [List Filter](#list-filter)
-      - [Search Fields](#search-fields)
-      - [Search Help](#search-help)
+    - [Register Admin Model](#register-admin-model)
+    - [List Display](#list-display)
+    - [List Filter](#list-filter)
+    - [Search Fields](#search-fields)
+    - [Search Help](#search-help)
+    - [Details Fields](#details-fields)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -605,9 +605,7 @@ from app.models import Job
 admin.site.register(Job)
 ```
 
-### Customize Admin
-
-#### Admin Model
+### Register Admin Model
 ```py
 # app/admin.py
 
@@ -620,7 +618,7 @@ class JobAdmin(admin.ModelAdmin):
 admin.site.register(Job, JobAdmin)
 ```
 
-#### List Display
+### List Display
 ```py
 class JobAdmin(admin.ModelAdmin):
     list_display = ('title', 'company', 'salary', 'description', 'id')
@@ -630,20 +628,32 @@ class JobAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'id')
 ```
 
-#### List Filter
+### List Filter
 ```py
 class JobAdmin(admin.ModelAdmin):
     list_filter = ('company', 'salary')
 ```
 
-#### Search Fields
+### Search Fields
 ```py
 class JobAdmin(admin.ModelAdmin):
     search_fields = ('title', 'company', 'salary', 'description')
 ```
 
-#### Search Help
+### Search Help
 ```py
 class JobAdmin(admin.ModelAdmin):
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
+```
+
+### Details Fields
+Fields to display, can group in Touples
+```py
+class JobAdmin(admin.ModelAdmin):
+    fields = (('title', 'company'), 'salary', 'description')
+```
+Fields to exclude
+```py
+class JobAdmin(admin.ModelAdmin):
+    exclude = ('slug')
 ```
