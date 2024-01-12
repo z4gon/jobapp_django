@@ -51,6 +51,7 @@ A Jobs Postings Portal built with Django 4
       - [Many To One Assign](#many-to-one-assign)
       - [Many To One Query](#many-to-one-query)
     - [Many To Many Relationship](#many-to-many-relationship)
+      - [Many To Many Assign](#many-to-many-assign)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -851,6 +852,19 @@ Operations to perform:
   Apply all migrations: admin, app, auth, contenttypes, sessions
 Running migrations:
   Applying app.0007_skill_job_skills... OK
+```
+
+#### Many To Many Assign
+```sh
+>>> from app.models import Job, Skill
+>>> s1 = Skill.objects.get(name="React")
+>>> j1 = Job.objects.get(id=1)
+>>> j1.skills.add(s1)
+```
+```sh
+>>> s4 = Skill.objects.get(name="Shaders")
+>>> j5 = Job.objects.get(id=5)
+>>> s4.job_set.add(j5)
 ```
 
 ## Admin
