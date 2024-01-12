@@ -779,6 +779,9 @@ Reverse
 >>> Author.objects.filter(job__pk=1)
 ```
 ```sh
+>>> Author.objects.filter(job__title__icontains="eng")
+```
+```sh
 >>> Author.objects.filter(job=j2)
 ```
 
