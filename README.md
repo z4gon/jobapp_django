@@ -54,6 +54,7 @@ A Jobs Postings Portal built with Django 4
     - [Search Help](#search-help)
     - [Details Fields](#details-fields)
     - [Fieldsets](#fieldsets)
+    - [Admin CSS](#admin-css)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -669,6 +670,18 @@ class JobAdmin(admin.ModelAdmin):
         }),
         ('Extra Information', {
             'fields': ('description',)
+        })
+    )
+```
+
+### Admin CSS
+```py
+class JobAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ...
+        ('Extra Information', {
+            'fields': ('description',)
+            'classes': ('collapse',)
         })
     )
 ```

@@ -19,7 +19,8 @@ class JobAdmin(admin.ModelAdmin):
             'fields': (('title', 'company'), 'salary')
         }),
         ('Extra Information', {
-            'fields': ('description',)
+            'fields': ('description',),
+            'classes': ('collapse',)
         })
     )
 
