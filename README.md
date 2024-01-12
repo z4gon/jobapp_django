@@ -42,6 +42,7 @@ A Jobs Postings Portal built with Django 4
     - [Update](#update)
     - [Overriding Model Funcs](#overriding-model-funcs)
       - [save()](#save)
+    - [Aggregation](#aggregation)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -531,11 +532,37 @@ class Job(models.Model):
         return super.save(*args, **kwargs)
 ```
 ```sh
-from app.models import Job
 >>> Job.objects.create(title="Technical Artist", company="Blizzard", description="Improve content creation pipelines", salary=130000)
 ```
 ```sh
 job_post_1 = Job.objects.get(id=5)
 job_post_1.slug
 'technical-artist-blizzard'
+```
+
+### Aggregation
+```sh
+>>> Job.objects.count()
+5
+```
+```sh
+>>> from django.db.models import Avg
+>>> Job.objects.aggregate(Avg("salary"))
+{'salary__avg': 125000.0}
+```
+```sh
+>>> Job.objects.filter()[:3].aggregate(Avg("salary"))
+{'salary__avg': 128333.33333333333}
+```
+```sh
+>>> Job.objects.filter(company__icontains="game").count()
+2
+```
+```sh
+>>> Job.objects.aggregate(Max("salary"))
+{'salary__max': 150000}
+```
+```sh
+>>> Job.objects.aggregate(max_deviation_from_avg=Max("salary") - Avg("salary"))
+{'max_deviation_from_avg': 25000.0}
 ```
