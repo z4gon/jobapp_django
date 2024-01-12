@@ -53,6 +53,7 @@ A Jobs Postings Portal built with Django 4
     - [Search Fields](#search-fields)
     - [Search Help](#search-help)
     - [Details Fields](#details-fields)
+    - [Fieldsets](#fieldsets)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -656,4 +657,18 @@ Fields to exclude
 ```py
 class JobAdmin(admin.ModelAdmin):
     exclude = ('slug')
+```
+
+### Fieldsets
+```py
+class JobAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Basic Information', {
+            'description': 'The minimal information about the Job.',
+            'fields': (('title', 'company'), 'salary')
+        }),
+        ('Extra Information', {
+            'fields': ('description',)
+        })
+    )
 ```

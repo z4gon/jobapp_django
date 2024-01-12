@@ -11,7 +11,16 @@ class JobAdmin(admin.ModelAdmin):
     search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
 
     # detail
-    fields = (('title', 'company'), 'salary', 'description')
-    exclude = ('slug',)
+    # fields = (('title', 'company'), 'salary', 'description')
+    # exclude = ('slug',)
+    fieldsets = (
+        ('Basic Information', {
+            'description': 'The minimal information about the Job.',
+            'fields': (('title', 'company'), 'salary')
+        }),
+        ('Extra Information', {
+            'fields': ('description',)
+        })
+    )
 
 admin.site.register(Job, JobAdmin)
