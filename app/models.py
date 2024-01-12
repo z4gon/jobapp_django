@@ -12,7 +12,7 @@ class Job(models.Model):
     slug = models.SlugField(null=True, max_length=200, unique=True)
 
     def __str__(self):
-        return f"{self.title} - {self.company} - {self.salary}"
+        return f"{self.title} - {self.company} - ${self.salary}"
     
     # https://docs.djangoproject.com/en/4.2/topics/db/models/#overriding-model-methods
     def save(self, *args, **kwargs):

@@ -1,7 +1,9 @@
 from django.contrib import admin
-
 from app.models import Job
 
 # Register your models here.
 
-admin.site.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Job, JobAdmin)
