@@ -8,8 +8,8 @@
 	</head>
 	<body>
 		<form method="post">
-      <!-- django csrf token -->
-      {% csrf_token %}
+			<!-- django csrf token -->
+			{% csrf_token %}
 
 			<label for="f_name">First Name</label>
 			<input
@@ -19,7 +19,7 @@
 				placeholder="Your First Name"
 				required
 			/>
-    </br>
+    		</br>
 
 			<label for="l_name">Last Name</label>
 			<input
@@ -29,7 +29,7 @@
 				placeholder="Your Last Name"
 				required
 			/>
-    </br>
+    		</br>
 
 			<label for="email">Email</label>
 			<input
@@ -39,14 +39,14 @@
 				placeholder="Your Email"
 				required
 			/>
-    </br>
+    		</br>
 
-      <!-- show errors -->
-      {% if errors %}
-        {% for error in errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      {% endif %}
+			<!-- show errors -->
+			{% if errors %}
+				{% for error in errors %}
+				<p style="color: red">{{ error }}</p>
+				{% endfor %}
+			{% endif %}
 
 			<input type="submit" value="Submit" />
 		</form>

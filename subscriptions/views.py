@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from subscriptions.models import Subscriber
 
 # Create your views here.
 
@@ -23,5 +24,10 @@ def subscribe(request):
         if last_name == "":
             errors.append("Last name is required")
         context["errors"] = errors
+
+        if len(errors) == 0:
+            # save the subscriber to the database
+            subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
+            subscriber.save()
 
     return render(request, 'subscriptions/subscribe.html', context)

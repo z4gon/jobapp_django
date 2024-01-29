@@ -15,6 +15,7 @@ A Jobs Postings Portal built with Django 4
     - [Path Converters](#path-converters)
     - [Reverse URLs](#reverse-urls)
     - [Redirect](#redirect)
+    - [POST \& CSRF](#post--csrf)
   - [Templates](#templates)
     - [Context](#context)
     - [If / Else](#if--else)
@@ -155,6 +156,46 @@ url = reverse('job_detail', args=[job_id])
 def job_detail(request, job_id):
     if job_id not in all_jobs:
         return redirect(reverse('jobs_list')) # redirect home
+```
+
+### POST & CSRF
+```py
+def subscribe(request):
+    context = {}
+
+    if request.POST:
+        email = request.POST.get('email')
+
+        errors = []
+        if email == "":
+            errors.append("Email is required")
+        context["errors"] = errors
+
+        if len(errors) == 0:
+            # save the subscriber to the database
+            subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
+            subscriber.save()
+
+    return render(request, 'subscriptions/subscribe.html', context)
+```
+
+```html
+<form method="post">
+    <!-- django csrf token -->
+    {% csrf_token %}
+
+    <label for="email">Email</label>
+    <input type="email" name="email" placeholder="Your Email" required />
+
+    <!-- show errors -->
+    {% if errors %}
+      {% for error in errors %}
+      <p style="color: red">{{ error }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <input type="submit" value="Submit" />
+  </form>
 ```
 
 ## Templates
