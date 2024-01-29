@@ -1245,12 +1245,14 @@ class Subscriber(models.Model):
 
 ## Static Files
 
+Namespacing, ensures no conflicts arise from files with same name.
 ```sh
 my_project/
 ├─ my_project/
 ├─ my_app/
 │  ├─ static/
-│  ├─ ├─ main.css
+│  ├─ ├─ my_app/
+│  ├─ ├─ ├─ main.css
 ```
 
 ```html
