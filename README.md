@@ -66,7 +66,7 @@ A Jobs Postings Portal built with Django 4
       - [Many To Many Assign](#many-to-many-assign)
       - [Many To Many Query](#many-to-many-query)
   - [Forms](#forms)
-    - [Simple POST](#simple-post)
+    - [POST](#post)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1101,7 +1101,8 @@ Insert
 ```
 
 ## Forms
-### Simple POST
+
+### POST
 ```py
 # forms.py
 
