@@ -1164,6 +1164,20 @@ def subscribe(request):
   {{ form.help_text }}
 </form>
 ```
+```html
+<!-- subscribe.html -->
+
+<form method="post">
+  {% for field in form %}
+  <div class="my_field">
+    {{ field.errors }}
+    <!-- {{ field.label_tag }} -->
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+</form>
+```
    
 ### Validation
 
