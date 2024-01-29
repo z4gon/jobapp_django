@@ -8,6 +8,9 @@
 	</head>
 	<body>
 		<form method="post">
+      <!-- django csrf token -->
+      {% csrf_token %}
+
 			<label for="f_name">First Name</label>
 			<input
 				type="text"
