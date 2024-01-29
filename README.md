@@ -20,6 +20,17 @@ A Jobs Postings Portal built with Django 4
     - [If / Else](#if--else)
     - [For Loops](#for-loops)
     - [Reverse URLs](#reverse-urls-1)
+  - [Admin](#admin)
+    - [createsuperuser](#createsuperuser)
+    - [Register Model](#register-model)
+    - [Register Admin Model](#register-admin-model)
+    - [List Display](#list-display)
+    - [List Filter](#list-filter)
+    - [Search Fields](#search-fields)
+    - [Search Help](#search-help)
+    - [Details Fields](#details-fields)
+    - [Fieldsets](#fieldsets)
+    - [Admin CSS](#admin-css)
   - [ORM](#orm)
     - [Models, Field Types \& Options](#models-field-types--options)
     - [Migrations](#migrations)
@@ -53,17 +64,6 @@ A Jobs Postings Portal built with Django 4
     - [Many To Many Relationship](#many-to-many-relationship)
       - [Many To Many Assign](#many-to-many-assign)
       - [Many To Many Query](#many-to-many-query)
-  - [Admin](#admin)
-    - [createsuperuser](#createsuperuser)
-    - [Register Model](#register-model)
-    - [Register Admin Model](#register-admin-model)
-    - [List Display](#list-display)
-    - [List Filter](#list-filter)
-    - [Search Fields](#search-fields)
-    - [Search Help](#search-help)
-    - [Details Fields](#details-fields)
-    - [Fieldsets](#fieldsets)
-    - [Admin CSS](#admin-css)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -232,6 +232,102 @@ def hello(request, name):
 ### Reverse URLs
 ```html
 <a href={% url "job_detail" job.id %}>
+```
+
+## Admin
+
+### createsuperuser
+
+```sh
+python manage.py createsuperuser
+```
+
+### Register Model
+
+```py
+from django.contrib import admin
+from app.models import Job
+
+admin.site.register(Job)
+```
+
+### Register Admin Model
+```py
+# app/admin.py
+
+from django.contrib import admin
+from app.models import Job
+
+class JobAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Job, JobAdmin)
+```
+
+### List Display
+```py
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('title', 'company', 'salary', 'description', 'id')
+```
+```py
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id')
+```
+
+### List Filter
+```py
+class JobAdmin(admin.ModelAdmin):
+    list_filter = ('company', 'salary')
+```
+
+### Search Fields
+```py
+class JobAdmin(admin.ModelAdmin):
+    search_fields = ('title', 'company', 'salary', 'description')
+```
+
+### Search Help
+```py
+class JobAdmin(admin.ModelAdmin):
+    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
+```
+
+### Details Fields
+Fields to display, can group in Touples
+```py
+class JobAdmin(admin.ModelAdmin):
+    fields = (('title', 'company'), 'salary', 'description')
+```
+Fields to exclude
+```py
+class JobAdmin(admin.ModelAdmin):
+    exclude = ('slug')
+```
+
+### Fieldsets
+```py
+class JobAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Basic Information', {
+            'description': 'The minimal information about the Job.',
+            'fields': (('title', 'company'), 'salary')
+        }),
+        ('Extra Information', {
+            'fields': ('description',)
+        })
+    )
+```
+
+### Admin CSS
+```py
+class JobAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ...
+        ('Extra Information', {
+            'fields': ('description',)
+            'classes': ('collapse',)
+        })
+    )
 ```
 
 ## ORM
@@ -909,100 +1005,4 @@ Insert
 ```
 ```sh
 >>> s3.job_set.add(j1, j2)
-```
-
-## Admin
-
-### createsuperuser
-
-```sh
-python manage.py createsuperuser
-```
-
-### Register Model
-
-```py
-from django.contrib import admin
-from app.models import Job
-
-admin.site.register(Job)
-```
-
-### Register Admin Model
-```py
-# app/admin.py
-
-from django.contrib import admin
-from app.models import Job
-
-class JobAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(Job, JobAdmin)
-```
-
-### List Display
-```py
-class JobAdmin(admin.ModelAdmin):
-    list_display = ('title', 'company', 'salary', 'description', 'id')
-```
-```py
-class JobAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'id')
-```
-
-### List Filter
-```py
-class JobAdmin(admin.ModelAdmin):
-    list_filter = ('company', 'salary')
-```
-
-### Search Fields
-```py
-class JobAdmin(admin.ModelAdmin):
-    search_fields = ('title', 'company', 'salary', 'description')
-```
-
-### Search Help
-```py
-class JobAdmin(admin.ModelAdmin):
-    search_help_text = ('Use AND, OR, NOT, " " for phrases, - to exclude terms')
-```
-
-### Details Fields
-Fields to display, can group in Touples
-```py
-class JobAdmin(admin.ModelAdmin):
-    fields = (('title', 'company'), 'salary', 'description')
-```
-Fields to exclude
-```py
-class JobAdmin(admin.ModelAdmin):
-    exclude = ('slug')
-```
-
-### Fieldsets
-```py
-class JobAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ('Basic Information', {
-            'description': 'The minimal information about the Job.',
-            'fields': (('title', 'company'), 'salary')
-        }),
-        ('Extra Information', {
-            'fields': ('description',)
-        })
-    )
-```
-
-### Admin CSS
-```py
-class JobAdmin(admin.ModelAdmin):
-    fieldsets = (
-        ...
-        ('Extra Information', {
-            'fields': ('description',)
-            'classes': ('collapse',)
-        })
-    )
 ```
