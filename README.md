@@ -68,6 +68,9 @@ A Jobs Postings Portal built with Django 4
   - [Forms](#forms)
     - [POST](#post)
     - [Rendering](#rendering)
+    - [Validation](#validation)
+      - [Clean Methods](#clean-methods)
+      - [Custom Validators](#custom-validators)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1145,3 +1148,28 @@ def subscribe(request):
 1. `as_p`
 2. `as_table`
 3. `as_ul`
+   
+### Validation
+
+#### Clean Methods
+
+```py
+class SubscriberForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True, help_text="Enter characters only")
+
+    def clean_first_name(self):
+        data = self.cleaned_data['first_name']
+        if ',' in data:
+            raise forms.ValidationError("Invalid First Name, please enter characters only")
+```
+
+#### Custom Validators
+
+```py
+def validate_no_comma(value):
+    if ',' in value:
+        raise forms.ValidationError("This value cannot include a comma")
+
+class SubscriberForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True, help_text="Enter characters only", validators=[validate_no_comma])
+```
