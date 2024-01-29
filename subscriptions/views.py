@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from subscriptions.forms import SubscriberForm
 from subscriptions.models import Subscriber
 
@@ -11,11 +12,17 @@ def subscribe(request):
         subscribe_form = SubscriberForm(request.POST) # bound
 
         if subscribe_form.is_valid():
-            print(f"VALID FORM {subscribe_form.first_name = } {subscribe_form.last_name = } {subscribe_form.email = }")
+            print(f"VALID FORM {subscribe_form.cleaned_data = }")
 
-            #     # save the subscriber to the database
-            #     subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
-            #     subscriber.save()
+            first_name = subscribe_form.cleaned_data['first_name']
+            last_name = subscribe_form.cleaned_data['last_name']
+            email = subscribe_form.cleaned_data['email']
+
+            # save the subscriber to the database
+            subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
+            subscriber.save()
+
+            return redirect(reverse('subscription_success'))
 
     context = { "form" : subscribe_form }
     return render(request, 'subscriptions/subscribe.html', context)
@@ -48,3 +55,6 @@ def subscribe_manual(request):
             subscriber.save()
 
     return render(request, 'subscriptions/subscribe.html', context)
+
+def subscription_success(request):
+    return render(request, 'subscriptions/subscription_success.html', {})
