@@ -13,15 +13,7 @@ def subscribe(request):
 
         if subscribe_form.is_valid():
             print(f"VALID FORM {subscribe_form.cleaned_data = }")
-
-            first_name = subscribe_form.cleaned_data['first_name']
-            last_name = subscribe_form.cleaned_data['last_name']
-            email = subscribe_form.cleaned_data['email']
-
-            # save the subscriber to the database
-            subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
-            subscriber.save()
-
+            subscribe_form.save()
             return redirect(reverse('subscription_success'))
 
     context = { "form" : subscribe_form }

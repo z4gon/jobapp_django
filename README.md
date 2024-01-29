@@ -74,6 +74,7 @@ A Jobs Postings Portal built with Django 4
       - [Clean Methods](#clean-methods)
       - [Custom Validators](#custom-validators)
     - [Model Form](#model-form)
+      - [Save](#save-1)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1213,4 +1214,16 @@ class SubscriberForm(forms.ModelForm):
         model = Subscriber
         fields = "__all__"
         # fields = ['first_name', 'last_name', 'email']
+```
+
+#### Save
+```py
+def subscribe(request):
+    subscribe_form = SubscriberForm()
+
+    if request.POST:
+        subscribe_form = SubscriberForm(request.POST) # bound
+
+        if subscribe_form.is_valid():
+            subscribe_form.save()
 ```
