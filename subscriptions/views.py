@@ -8,19 +8,19 @@ def subscribe(request):
     if request.POST:
 
         # get first name, last name and email from the post request
-        firstname = request.POST.get('firstname')
-        lastname = request.POST.get('lastname')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
 
-        print(f"POST REQUEST {email = } {firstname = } {lastname = }")
+        print(f"POST REQUEST {email = } {first_name = } {last_name = }")
 
         # check for errors
         errors = []
         if email == "":
             errors.append("Email is required")
-        if firstname == "":
+        if first_name == "":
             errors.append("First name is required")
-        if lastname == "":
+        if last_name == "":
             errors.append("Last name is required")
         context["errors"] = errors
 
