@@ -5,10 +5,23 @@ from subscriptions.models import Subscriber
 # Create your views here.
 
 def subscribe(request):
-    subscriber_form = SubscriberForm()
-    context = {
-        "form": subscriber_form
-    }
+    subscribe_form = SubscriberForm()
+
+    if request.POST:
+        subscribe_form = SubscriberForm(request.POST) # bound
+
+        if subscribe_form.is_valid():
+            print(f"VALID FORM {subscribe_form.first_name = } {subscribe_form.last_name = } {subscribe_form.email = }")
+
+            #     # save the subscriber to the database
+            #     subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
+            #     subscriber.save()
+
+    context = { "form" : subscribe_form }
+    return render(request, 'subscriptions/subscribe.html', context)
+
+def subscribe_manual(request):
+    context = {}
 
     if request.POST:
 
