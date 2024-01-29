@@ -73,6 +73,7 @@ A Jobs Postings Portal built with Django 4
     - [Validation](#validation)
       - [Clean Methods](#clean-methods)
       - [Custom Validators](#custom-validators)
+    - [Model Form](#model-form)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1202,4 +1203,14 @@ def validate_no_comma(value):
 
 class SubscriberForm(forms.Form):
     first_name = forms.CharField(max_length=50, required=True, help_text="Enter characters only", validators=[validate_no_comma])
+```
+
+### Model Form
+```py
+class SubscriberForm(forms.ModelForm):
+
+    class Meta:
+        model = Subscriber
+        fields = "__all__"
+        # fields = ['first_name', 'last_name', 'email']
 ```
