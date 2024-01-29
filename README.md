@@ -76,6 +76,7 @@ A Jobs Postings Portal built with Django 4
     - [Model Form](#model-form)
       - [Save](#save-1)
       - [Choices](#choices)
+  - [Static Files](#static-files)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1240,4 +1241,25 @@ NEWSLETTER_OPTION = [
 # subscriber model
 class Subscriber(models.Model):
     option = models.CharField(max_length=1, choices=NEWSLETTER_OPTION, default='W')
+```
+
+## Static Files
+
+```sh
+my_project/
+├─ my_project/
+├─ my_app/
+│  ├─ static/
+│  ├─ ├─ main.css
+```
+
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link href="{% static 'main.css' %}" rel="stylesheet" type="text/css" />
+	</head>
+</html>
 ```
