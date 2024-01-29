@@ -3,7 +3,7 @@ from django import forms
 
 # form for subscriber
 class SubscriberForm(forms.Form):
-    first_name = forms.CharField(max_length=50, required=True)
+    first_name = forms.CharField(max_length=50, required=True, help_text="Enter characters only")
     last_name = forms.CharField(max_length=50, required=True)
     email = forms.EmailField(max_length=254, required=True)
 
