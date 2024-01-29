@@ -60,8 +60,8 @@ A Jobs Postings Portal built with Django 4
       - [One To One Restriction](#one-to-one-restriction)
       - [One To One Query](#one-to-one-query)
     - [One To Many Relationship](#one-to-many-relationship)
-      - [Many To One Assign](#many-to-one-assign)
-      - [Many To One Query](#many-to-one-query)
+      - [One To Many Assign](#one-to-many-assign)
+      - [One To Many Query](#one-to-many-query)
     - [Many To Many Relationship](#many-to-many-relationship)
       - [Many To Many Assign](#many-to-many-assign)
       - [Many To Many Query](#many-to-many-query)
@@ -775,14 +775,50 @@ BEGIN;
 --
 -- Create model Location
 --
-CREATE TABLE "app_location" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "street" varchar(200) NOT NULL, "city" varchar(200) NOT NULL, "state" varchar(200) NOT NULL, "country" varchar(200) NOT NULL, "zip" varchar(200) NOT NULL);
+CREATE TABLE "app_location" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+  "street" varchar(200) NOT NULL, 
+  "city" varchar(200) NOT NULL, 
+  "state" varchar(200) NOT NULL, 
+  "country" varchar(200) NOT NULL, 
+  "zip" varchar(200) NOT NULL
+);
 --
 -- Add field location to job
 --
-CREATE TABLE "new__app_job" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "company" varchar(200) NOT NULL, "description" text NOT NULL, "date" datetime NOT NULL, "salary" integer NOT NULL, "slug" varchar(200) NULL UNIQUE, "location_id" bigint NULL UNIQUE REFERENCES "app_location" ("id") DEFERRABLE INITIALLY DEFERRED);
-INSERT INTO "new__app_job" ("id", "title", "company", "description", "date", "salary", "slug", "location_id") SELECT "id", "title", "company", "description", "date", "salary", "slug", NULL FROM "app_job";
+CREATE TABLE "new__app_job" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+  "title" varchar(200) NOT NULL, 
+  "company" varchar(200) NOT NULL, 
+  "description" text NOT NULL, 
+  "date" datetime NOT NULL, 
+  "salary" integer NOT NULL, 
+  "slug" varchar(200) NULL UNIQUE, 
+  "location_id" bigint NULL UNIQUE REFERENCES "app_location" ("id") DEFERRABLE INITIALLY DEFERRED
+);
+INSERT INTO "new__app_job" (
+  "id", 
+  "title", 
+  "company", 
+  "description", 
+  "date", 
+  "salary", 
+  "slug", 
+  "location_id"
+) SELECT 
+  "id", 
+  "title", 
+  "company", 
+  "description", 
+  "date", 
+  "salary", 
+  "slug", 
+  NULL 
+FROM "app_job";
+
 DROP TABLE "app_job";
 ALTER TABLE "new__app_job" RENAME TO "app_job";
+
 COMMIT;
 ```
 ```sh
@@ -860,12 +896,18 @@ BEGIN;
 --
 -- Create model Author
 --
-CREATE TABLE "app_author" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(200) NOT NULL, "email" varchar(200) NOT NULL);
+CREATE TABLE "app_author" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+  "name" varchar(200) NOT NULL, 
+  "email" varchar(200) NOT NULL
+);
 --
 -- Add field author to job
 --
-ALTER TABLE "app_job" ADD COLUMN "author_id" bigint NULL REFERENCES "app_author" ("id") DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE "app_job" 
+ADD COLUMN "author_id" bigint NULL REFERENCES "app_author" ("id") DEFERRABLE INITIALLY DEFERRED;
 CREATE INDEX "app_job_author_id_9e07b364" ON "app_job" ("author_id");
+
 COMMIT;
 ```
 ```sh
@@ -878,7 +920,7 @@ Running migrations:
   Applying app.0006_author_job_author... OK
 ```
 
-#### Many To One Assign
+#### One To Many Assign
 ```sh
 >>> from app.models import Location, Author, Job
 >>> a1 = Author.objects.get(id=1)
@@ -887,7 +929,7 @@ Running migrations:
 >>> j2.save()
 ```
 
-#### Many To One Query
+#### One To Many Query
 Direct
 ```sh
 >>> Job.objects.filter(author__name__icontains="Geralt")
@@ -972,14 +1014,22 @@ BEGIN;
 --
 -- Create model Skill
 --
-CREATE TABLE "app_skill" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(200) NOT NULL UNIQUE);
+CREATE TABLE "app_skill" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+  "name" varchar(200) NOT NULL UNIQUE
+);
 --
 -- Add field skills to job
 --
-CREATE TABLE "app_job_skills" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "job_id" bigint NOT NULL REFERENCES "app_job" ("id") DEFERRABLE INITIALLY DEFERRED, "skill_id" bigint NOT NULL REFERENCES "app_skill" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE TABLE "app_job_skills" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
+  "job_id" bigint NOT NULL REFERENCES "app_job" ("id") DEFERRABLE INITIALLY DEFERRED, 
+  "skill_id" bigint NOT NULL REFERENCES "app_skill" ("id") DEFERRABLE INITIALLY DEFERRED
+);
 CREATE UNIQUE INDEX "app_job_skills_job_id_skill_id_1fb03c4b_uniq" ON "app_job_skills" ("job_id", "skill_id");
 CREATE INDEX "app_job_skills_job_id_6d88a2c2" ON "app_job_skills" ("job_id");
 CREATE INDEX "app_job_skills_skill_id_3de09170" ON "app_job_skills" ("skill_id");
+
 COMMIT;
 ```
 ```sh
