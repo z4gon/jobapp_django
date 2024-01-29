@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from subscriptions.forms import SubscriberForm
 from subscriptions.models import Subscriber
 
 # Create your views here.
 
 def subscribe(request):
-    context = {}
+    subscriber_form = SubscriberForm()
+    context = {
+        "form": subscriber_form
+    }
 
     if request.POST:
 
