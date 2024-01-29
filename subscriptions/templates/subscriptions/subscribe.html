@@ -41,6 +41,13 @@
 			/>
     </br>
 
+      <!-- show errors -->
+      {% if errors %}
+        {% for error in errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      {% endif %}
+
 			<input type="submit" value="Submit" />
 		</form>
 	</body>
