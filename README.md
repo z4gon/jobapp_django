@@ -68,6 +68,8 @@ A Jobs Postings Portal built with Django 4
   - [Forms](#forms)
     - [POST](#post)
     - [Rendering](#rendering)
+      - [Layout](#layout)
+      - [Manual](#manual)
     - [Validation](#validation)
       - [Clean Methods](#clean-methods)
       - [Custom Validators](#custom-validators)
@@ -1145,9 +1147,23 @@ def subscribe(request):
 ```
 
 ### Rendering
+
+#### Layout
 1. `as_p`
 2. `as_table`
 3. `as_ul`
+   
+#### Manual
+```html
+<!-- subscribe.html -->
+
+<form method="post">
+  {{ form.first_name.errors }}
+  <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+  {{ form.first_name }}
+  {{ form.help_text }}
+</form>
+```
    
 ### Validation
 
