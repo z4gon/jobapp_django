@@ -1261,7 +1261,7 @@ my_project/
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link href="{% static 'main.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'my_app/main.css' %}" rel="stylesheet" type="text/css" />
 	</head>
 </html>
 ```
