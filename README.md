@@ -65,6 +65,8 @@ A Jobs Postings Portal built with Django 4
     - [Many To Many Relationship](#many-to-many-relationship)
       - [Many To Many Assign](#many-to-many-assign)
       - [Many To Many Query](#many-to-many-query)
+  - [Forms](#forms)
+    - [Simple POST](#simple-post)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1096,4 +1098,43 @@ Insert
 ```
 ```sh
 >>> s3.job_set.add(j1, j2)
+```
+
+## Forms
+### Simple POST
+```py
+# forms.py
+
+class SubscriberForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True)
+    last_name = forms.CharField(max_length=50, required=True)
+    email = forms.EmailField(max_length=254, required=True)
+```
+```html
+<!-- subscribe.html -->
+
+<form method="post">
+  <!-- django csrf token -->
+  {% csrf_token %} {{ form }}
+  <input type="submit" value="Submit" />
+</form>
+```
+```py
+# views.py
+
+def subscribe(request):
+    subscribe_form = SubscriberForm()
+
+    if request.POST:
+        subscribe_form = SubscriberForm(request.POST) # bound
+
+        if subscribe_form.is_valid():
+            print(f"VALID FORM {subscribe_form.first_name = } {subscribe_form.last_name = } {subscribe_form.email = }")
+
+            #     # save the subscriber to the database
+            #     subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
+            #     subscriber.save()
+
+    context = { "form" : subscribe_form }
+    return render(request, 'subscriptions/subscribe.html', context)
 ```
