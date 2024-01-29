@@ -75,6 +75,7 @@ A Jobs Postings Portal built with Django 4
       - [Custom Validators](#custom-validators)
     - [Model Form](#model-form)
       - [Save](#save-1)
+      - [Choices](#choices)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1226,4 +1227,17 @@ def subscribe(request):
 
         if subscribe_form.is_valid():
             subscribe_form.save()
+```
+
+#### Choices
+```py
+NEWSLETTER_OPTION = [
+    ('W', 'Weekly'),
+    ('M', 'Monthly'),
+    ('N', 'Never')
+]
+
+# subscriber model
+class Subscriber(models.Model):
+    option = models.CharField(max_length=1, choices=NEWSLETTER_OPTION, default='W')
 ```
