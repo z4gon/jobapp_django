@@ -9,7 +9,7 @@
 	<body>
 		<form method="post">
 			<!-- django csrf token -->
-			{% csrf_token %} {{ form }}
+			{% csrf_token %} {{ form.as_p }}
 			<input type="submit" value="Submit" />
 		</form>
 	</body>

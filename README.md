@@ -67,6 +67,7 @@ A Jobs Postings Portal built with Django 4
       - [Many To Many Query](#many-to-many-query)
   - [Forms](#forms)
     - [POST](#post)
+    - [Rendering](#rendering)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1139,3 +1140,8 @@ def subscribe(request):
     context = { "form" : subscribe_form }
     return render(request, 'subscriptions/subscribe.html', context)
 ```
+
+### Rendering
+1. `as_p`
+2. `as_table`
+3. `as_ul`
