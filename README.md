@@ -15,7 +15,7 @@ A Jobs Postings Portal built with Django 4
     - [Path Converters](#path-converters)
     - [Reverse URLs](#reverse-urls)
     - [Redirect](#redirect)
-    - [POST \& CSRF](#post--csrf)
+    - [Manual POST \& CSRF](#manual-post--csrf)
   - [Templates](#templates)
     - [Context](#context)
     - [If / Else](#if--else)
@@ -158,7 +158,7 @@ def job_detail(request, job_id):
         return redirect(reverse('jobs_list')) # redirect home
 ```
 
-### POST & CSRF
+### Manual POST & CSRF
 ```py
 def subscribe(request):
     context = {}
