@@ -14,7 +14,10 @@
 		<title>Subscribe Form</title>
 	</head>
 	<body>
-		<h1 class="subscribe-title">Subscribe!</h1>
+		<div class="subscribe-header">
+			<img class="subscribe-icon" src="{% static 'subscriptions/icon-email.png' %}" >
+			<h1 class="subscribe-title">Subscribe!</h1>
+		</div>
 		<form method="post">
 			<!-- django csrf token -->
 			{% csrf_token %} {{ form.as_p }}

@@ -1,4 +1,16 @@
+.subscribe-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .subscribe-title {
     color: blue;
     font-size: 2em;
+    vertical-align: center;
+}
+
+.subscribe-icon {
+    width: 50px;
+    margin-top: -5px;
 }
