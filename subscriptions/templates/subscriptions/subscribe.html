@@ -20,5 +20,8 @@
 			{% csrf_token %} {{ form.as_p }}
 			<input type="submit" value="Submit" />
 		</form>
+		</br>
+		<input type="button" value="Say Hello World" onclick="helloWorld()" />
+		<script src="{% static 'subscriptions/main.js' %}"></script>
 	</body>
 </html>
