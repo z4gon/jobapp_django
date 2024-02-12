@@ -77,6 +77,14 @@ A Jobs Postings Portal built with Django 4
       - [Save](#save-1)
       - [Choices](#choices)
   - [Static Files](#static-files)
+  - [Upload Media Files](#upload-media-files)
+    - [Model](#model)
+    - [Form](#form)
+    - [View / Template](#view--template)
+    - [Settings](#settings)
+  - [Deploy to Prod](#deploy-to-prod)
+    - [Static Files](#static-files-1)
+    - [Heroku](#heroku)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1276,3 +1284,112 @@ STATIC_URL = 'static/'
 	</head>
 </html>
 ```
+
+## Upload Media Files
+
+### Model
+```py
+# models.py
+
+class ImageUpload(model.Model):
+  image = models.ImageField(upload_to="images")
+  description = models.CharField(max_length=200)
+```
+```sh
+pip install Pillow
+```
+```sh
+python manage.py makemigrations
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+uploads.ImageUpload.image: (fields.E210) Cannot use ImageField because Pillow is not installed.
+	HINT: Get Pillow at https://pypi.org/project/Pillow/ or run command "python -m pip install Pillow".
+```
+
+### Form
+```py
+# forms.py
+
+class ImageUploadForm(model.ModelForm):
+  class Meta:
+    model = Upload
+    fields = '__all__'
+```
+
+### View / Template
+```py
+# views.py
+
+def upload_image(request):
+    form = ImageUploadForm()
+
+    if request.POST:
+        form = ImageUploadForm(request.POST, request.FILES) # bound
+        if form.is_valid():
+            form.save()
+
+    context = { "form" : form }
+    return render(request, 'uploads/upload_image.html', context)
+```
+```html
+<form method="post" enctype="multipart/form-data">
+  <!-- django csrf token -->
+  {{ form }}
+  <input type="submit" value="Submit" />
+</form>
+```
+
+### Settings
+```py
+# settings.py
+
+INSTALLED_APPS = [
+    ...
+    'uploads.apps.UploadsConfig',
+]
+
+MEDIA_ROOT = BASE_DIR / 'uploaded_content/'
+```
+
+## Deploy to Prod
+
+Run the [checklist](https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/)
+```sh
+python manage.py check --deploy
+```
+```py
+SECRET_KEY = os.environ["SECRET_KEY"]
+```
+```py
+DEBUG = False
+```
+```py
+ALLOWED_HOSTS = []
+```
+```py
+STATIC_URL
+STATIC_ROOT
+```
+```sh
+python manage.py collectstatic
+```
+
+### Static Files
+- django serves static files in `DEBUG = True`
+- 
+```py
+# urls.py
+
+urlpatterns = [ 
+  ... 
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+```
+
+- web server for static files in `DEBUG = False`
+
+### Heroku
+- Procfile
+- requirements.txt
+- gunicorn
+- runtime.txt
