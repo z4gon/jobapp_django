@@ -1255,6 +1255,17 @@ my_project/
 │  ├─ ├─ ├─ main.css
 ```
 
+```py
+# settings.py
+
+INSTALLED_APPS = [
+    ...
+    'django.contrib.staticfiles'
+]
+
+STATIC_URL = 'static/'
+```
+
 ```html
 {% load static %}
 
