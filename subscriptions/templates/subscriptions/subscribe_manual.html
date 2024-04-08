@@ -1,54 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Subscribe Form</title>
-	</head>
-	<body>
-		<form method="post">
-			<!-- django csrf token -->
-			{% csrf_token %}
+{% extends 'base.html' %}
 
-			<label for="f_name">First Name</label>
-			<input
-				type="text"
-				id="f_name"
-				name="first_name"
-				placeholder="Your First Name"
-				required
-			/>
-    		</br>
+{% block title %}
+Subscribe 
+{% endblock title%}
 
-			<label for="l_name">Last Name</label>
-			<input
-				type="text"
-				id="l_name"
-				name="last_name"
-				placeholder="Your Last Name"
-				required
-			/>
-    		</br>
+{% block subtitle %}
+Subscribe Form
+{% endblock subtitle%}
 
-			<label for="email">Email</label>
-			<input
-				type="email"
-				id="email"
-				name="email"
-				placeholder="Your Email"
-				required
-			/>
-    		</br>
+{% block content %}
+<form method="post">
+	<!-- django csrf token -->
+	{% csrf_token %}
 
-			<!-- show errors -->
-			{% if errors %}
-				{% for error in errors %}
-				<p style="color: red">{{ error }}</p>
-				{% endfor %}
-			{% endif %}
+	<label for="f_name">First Name</label>
+	<input
+		type="text"
+		id="f_name"
+		name="first_name"
+		placeholder="Your First Name"
+		required
+	/>
+	</br>
+	</br>
 
-			<input type="submit" value="Submit" /> 
-		</form>
-	</body>
-</html>
+	<label for="l_name">Last Name</label>
+	<input
+		type="text"
+		id="l_name"
+		name="last_name"
+		placeholder="Your Last Name"
+		required
+	/>
+	</br>
+	</br>
+
+	<label for="email">Email</label>
+	<input
+		type="email"
+		id="email"
+		name="email"
+		placeholder="Your Email"
+		required
+	/>
+	</br>
+	</br>
+
+	<!-- show errors -->
+	{% if errors %}
+		{% for error in errors %}
+		<p style="color: red">{{ error }}</p>
+		{% endfor %}
+		</br>
+		</br>
+	{% endif %}
+
+
+	<input type="submit" value="Submit" /> 
+</form>
+{% endblock content %}

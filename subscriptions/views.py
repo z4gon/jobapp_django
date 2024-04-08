@@ -45,8 +45,9 @@ def subscribe_manual(request):
             # save the subscriber to the database
             subscriber = Subscriber(first_name=first_name, last_name=last_name, email=email)
             subscriber.save()
+            return redirect(reverse('subscription_success'))
 
-    return render(request, 'subscriptions/subscribe.html', context)
+    return render(request, 'subscriptions/subscribe_manual.html', context)
 
 def subscription_success(request):
     return render(request, 'subscriptions/subscription_success.html', {})

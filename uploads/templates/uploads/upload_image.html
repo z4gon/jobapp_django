@@ -1,34 +1,33 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			href="{% static 'uploads/main.css' %}"
-			rel="stylesheet"
-			type="text/css"
-		/>
-		<title>Upload Image</title>
-	</head>
-	<body>
-		<h1>Upload Image</h1>
-		<form method="post" enctype="multipart/form-data">
-			<!-- django csrf token -->
-			{% csrf_token %} {{ form.as_p }}
-			<input type="submit" value="Submit" />
-		</form>
-		{% if saved_object %}
-		<h2>Upload successful!</h2>
-		<p><strong>Path:</strong> {{ saved_object.image.url }}</p>
-		<p><strong>Description:</strong> {{ saved_object.description }}</p>
-		<img
-			class="image"
-			src="{{ saved_object.image.url }}"
-			alt="Uploaded Image"
-		/>
-		{% endif %}
-	</body>
-</html>
+{% block title %}
+Upload Image
+{% endblock title%}
+
+{% block subtitle %}
+Upload Image
+{% endblock subtitle%}
+
+{% block content %}
+<link
+	href="{% static 'uploads/main.css' %}"
+	rel="stylesheet"
+	type="text/css"
+/>
+<form method="post" enctype="multipart/form-data">
+	<!-- django csrf token -->
+	{% csrf_token %} {{ form.as_p }}
+	<input type="submit" value="Submit" />
+</form>
+{% if saved_object %}
+<h2>Upload successful!</h2>
+<p><strong>Path:</strong> {{ saved_object.image.url }}</p>
+<p><strong>Description:</strong> {{ saved_object.description }}</p>
+<img
+	class="image"
+	src="{{ saved_object.image.url }}"
+	alt="Uploaded Image"
+/>
+{% endif %}
+{% endblock content %}

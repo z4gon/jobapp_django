@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" style="font-family: 'Roboto', sans-serif">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+
+		<title>{% block title %} Index {% endblock title %} | Job App</title>
+	</head>
+	<body style="margin: 0">
+		<header
+			style="
+				margin: 0;
+				width: calc(100% - 2em);
+				background: #79aec8;
+				color: white;
+				padding: 0.5em 1em;
+				height: 3em;
+				display: flex;
+				align-items: center;
+			"
+		>
+			<h1 style="text-transform: uppercase">Job App</h1>
+		</header>
+		<main style="margin: 0; padding: 1em">
+			<div>
+				<h2 style="margin-top: 0">
+					{% block subtitle %} Main {% endblock subtitle %}
+				</h2>
+			</div>
+			{% block content %} {% endblock content %}
+		</main>
+	</body>
+</html>

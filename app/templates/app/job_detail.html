@@ -1,6 +1,16 @@
-<a href={% url "jobs_list" %}>&lt; Back</a>
+{% extends 'base.html' %}
 
-<h1>{{ job.title }}</h1>
-<h2>{{ job.company }}</h2>
+{% block title %}
+{{ job.title }}
+{% endblock title%}
+
+{% block subtitle %}
+{{ job.title }}
+{% endblock subtitle%}
+
+{% block content %}
+<h3>{{ job.company }}</h3>
 <p>{{ job.description }}</p>
 <p>Salary: ${{ job.salary }}</p>
+<a style="background: #417690;padding: 0.5em 1em;border-radius: 0.4em;color: white;display: inline-block;" href={% url "jobs_list" %}>&lt; Back</a>
+{% endblock content %}
