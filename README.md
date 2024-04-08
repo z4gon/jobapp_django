@@ -21,6 +21,7 @@ A Jobs Postings Portal built with Django 4
     - [If / Else](#if--else)
     - [For Loops](#for-loops)
     - [Reverse URLs](#reverse-urls-1)
+    - [Inheritance](#inheritance)
   - [Admin](#admin)
     - [createsuperuser](#createsuperuser)
     - [Register Model](#register-model)
@@ -294,6 +295,69 @@ def hello(request, name):
 ### Reverse URLs
 ```html
 <a href={% url "job_detail" job.id %}>
+```
+
+### Inheritance
+```html
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>{% block title %} Index {% endblock title %} | Job App</title>
+	</head>
+	<body>
+		<header>
+			<h1>Job App</h1>
+		</header>
+		<main>
+			<div>
+				<h2>
+					{% block subtitle %} Main {% endblock subtitle %}
+				</h2>
+			</div>
+			{% block content %} {% endblock content %}
+		</main>
+	</body>
+</html>
+```
+
+```html
+<!-- subscriptions/templates/subscriptions/subscribe.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Subscribe
+{% endblock title%}
+
+{% block subtitle %}
+<div style="display: flex;align-items: center;">
+	<img class="subscribe-icon" src="{% static 'subscriptions/icon-email.png' %}" >
+	Subscribe
+</div>
+{% endblock subtitle%}
+
+{% block content %}
+<link
+	href="{% static 'subscriptions/main.css' %}"
+	rel="stylesheet"
+	type="text/css"
+/>
+<form method="post">
+	<!-- django csrf token -->
+	{% csrf_token %} {{ form.as_p }}
+	<input type="submit" value="Submit" />
+</form>
+</br>
+<input type="button" value="Say Hello World" onclick="helloWorld()" />
+<script src="{% static 'subscriptions/main.js' %}"></script>
+{% endblock content %}
 ```
 
 ## Admin
