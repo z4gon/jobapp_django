@@ -16,7 +16,7 @@ class JobAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic Information', {
             'description': 'The minimal information about the Job.',
-            'fields': (('title', 'company'), 'salary')
+            'fields': (('title', 'company'), ('salary', 'type'))
         }),
         ('Extra Information', {
             'fields': ('skills', 'description', 'location', 'author',),
