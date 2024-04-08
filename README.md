@@ -76,14 +76,15 @@ A Jobs Postings Portal built with Django 4
     - [Model Form](#model-form)
       - [Save](#save-1)
       - [Choices](#choices)
-  - [Static Files](#static-files)
+  - [Static Files (DEBUG)](#static-files-debug)
   - [Upload Media Files](#upload-media-files)
     - [Model](#model)
     - [Form](#form)
     - [View / Template](#view--template)
     - [Settings](#settings)
+    - [Display Uploaded Images](#display-uploaded-images)
   - [Deploy to Prod](#deploy-to-prod)
-    - [Static Files](#static-files-1)
+    - [Static Files (PROD)](#static-files-prod)
     - [Heroku](#heroku)
 
 ## Resources
@@ -1251,7 +1252,8 @@ class Subscriber(models.Model):
     option = models.CharField(max_length=1, choices=NEWSLETTER_OPTION, default='W')
 ```
 
-## Static Files
+## Static Files (DEBUG)
+Read the [docs](https://docs.djangoproject.com/en/5.0/howto/static-files/#serving-static-files-in-development)
 
 Namespacing, ensures no conflicts arise from files with same name.
 ```sh
@@ -1271,7 +1273,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles'
 ]
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' # URL to use when referring to static files located in STATIC_ROOT.
 ```
 
 ```html
@@ -1349,7 +1351,52 @@ INSTALLED_APPS = [
     'uploads.apps.UploadsConfig',
 ]
 
-MEDIA_ROOT = BASE_DIR / 'uploaded_content/'
+MEDIA_ROOT = BASE_DIR / 'uploaded_content/' # Absolute filesystem path to the directory that will hold user-uploaded files.
+```
+
+### Display Uploaded Images
+Read the [docs](https://docs.djangoproject.com/en/5.0/howto/static-files/#serving-files-uploaded-by-a-user-during-development)
+
+
+```py
+# views.py
+
+def upload_image(request):
+    ...
+    if request.POST:
+            ...
+            saved_object = form.instance
+            return render(request, 'uploads/upload_image.html', { "form" : form, "saved_object": saved_object })
+```
+
+```html
+{% if saved_object %}
+<h2>Upload successful!</h2>
+<p><strong>Path:</strong> {{ saved_object.image.url }}</p>
+<p><strong>Description:</strong> {{ saved_object.description }}</p>
+<img
+  class="image"
+  src="{{ saved_object.image.url }}"
+  alt="Uploaded Image"
+/>
+{% endif %}
+```
+
+```py
+# settings.py
+
+MEDIA_URL = 'media/' # URL that handles the media served from MEDIA_ROOT, used for managing stored files.
+```
+
+```py
+# urls.py
+
+from jobapp_django import settings
+
+urlpatterns = [
+  ... 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 ```
 
 ## Deploy to Prod
@@ -1368,14 +1415,14 @@ DEBUG = False
 ALLOWED_HOSTS = []
 ```
 ```py
-STATIC_URL
-STATIC_ROOT
+STATIC_URL # URL to use when referring to static files located in STATIC_ROOT.
+STATIC_ROOT # The absolute path to the directory where collectstatic will collect static files for deployment.
 ```
 ```sh
 python manage.py collectstatic
 ```
 
-### Static Files
+### Static Files (PROD)
 - django serves static files in `DEBUG = True`
 - 
 ```py

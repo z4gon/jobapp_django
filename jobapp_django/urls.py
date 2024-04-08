@@ -1,3 +1,7 @@
+from jobapp_django import settings
+
+from django.conf.urls.static import static
+
 """
 URL configuration for jobapp_django project.
 
@@ -22,4 +26,4 @@ urlpatterns = [
     path('', include('app.urls')),
     path('', include('subscriptions.urls')),
     path('', include('uploads.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
