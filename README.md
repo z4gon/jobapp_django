@@ -1470,13 +1470,17 @@ Run the [checklist](https://docs.djangoproject.com/en/5.0/howto/deployment/check
 python manage.py check --deploy
 ```
 ```py
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.getenv('SECRET_KEY', 'default...')
 ```
 ```py
-DEBUG = False
+DEBUG = os.getenv('IS_DEVELOPMENT', True)
 ```
 ```py
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    os.getenv('APP_HOST'),
+    '127.0.0.1'
+]
 ```
 ```py
 STATIC_URL # URL to use when referring to static files located in STATIC_ROOT.
@@ -1500,7 +1504,6 @@ urlpatterns = [
 - web server for static files in `DEBUG = False`
 
 ### Heroku
-- Procfile
-- requirements.txt
-- gunicorn
-- runtime.txt
+- Pipfile or requirements.txt (dependencies)
+- Procfile (gunicorn web server config)
+- runtime.txt (python version)
