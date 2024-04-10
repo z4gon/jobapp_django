@@ -87,6 +87,8 @@ A Jobs Postings Portal built with Django 4
   - [Deploy to Prod](#deploy-to-prod)
     - [Static Files (PROD)](#static-files-prod)
     - [Heroku](#heroku)
+    - [Storage](#storage)
+    - [Database](#database)
 
 ## Resources
 [Python Django 4 Masterclass | Build a Real World Project](https://www.udemy.com/course/python-django-masterclass)
@@ -1498,7 +1500,8 @@ python manage.py collectstatic
 
 urlpatterns = [ 
   ... 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 ```
 
 - web server for static files in `DEBUG = False`
@@ -1507,3 +1510,55 @@ urlpatterns = [
 - Pipfile or requirements.txt (dependencies)
 - Procfile (gunicorn web server config)
 - runtime.txt (python version)
+
+### Storage
+
+- [WhiteNoise](https://whitenoise.readthedocs.io/en/stable/) 
+
+```py
+MIDDLEWARE = [
+    # ...
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # ...
+]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+```
+
+- [django-storages](https://django-storages.readthedocs.io/en/latest/) for Amazon S3
+- needs boto3
+
+```py
+DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage" # stores uploaded media, and serves media from it
+STATICFILES_STORAGE = "storages.backends.s3.S3Storage" # collectstatic uploads files to s3, and serves them from it
+
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID')
+AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY')
+AWS_QUERYSTRING_AUTH = False
+```
+
+### Database
+
+- Postgres
+- needs psycopg2-binary
+
+```py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+}
+```
+
+```sh
+python manage.py dumpdata > db.json
+python manage.py migrate
+python manage.py loaddata db.json
+```
